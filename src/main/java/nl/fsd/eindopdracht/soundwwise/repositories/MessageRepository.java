@@ -1,4 +1,7 @@
 package nl.fsd.eindopdracht.soundwwise.repositories;
 
-public interface MessageRepository {
+import nl.fsd.eindopdracht.soundwwise.models.Message;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MessageRepository extends JpaRepository<Message, Long> {
 }

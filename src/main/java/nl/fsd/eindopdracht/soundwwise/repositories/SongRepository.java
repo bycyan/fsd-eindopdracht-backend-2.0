@@ -1,4 +1,7 @@
 package nl.fsd.eindopdracht.soundwwise.repositories;
 
-public interface SongRepository {
+import nl.fsd.eindopdracht.soundwwise.models.Song;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SongRepository extends JpaRepository<Song, Long> {
 }

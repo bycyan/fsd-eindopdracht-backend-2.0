@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //geen @CrossOrigin vermelding boven iedere klasse
 //In security configuratie .cors() activeren
 
-
 @Configuration
 public class CorsConfig {
     @Bean

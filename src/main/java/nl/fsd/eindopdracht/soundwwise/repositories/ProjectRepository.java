@@ -1,4 +1,7 @@
 package nl.fsd.eindopdracht.soundwwise.repositories;
 
-public interface ProjectRepository {
+import nl.fsd.eindopdracht.soundwwise.models.Project;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 }
