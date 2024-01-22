@@ -6,4 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProjectOutputDto {
+    public Long id;
+    public String title;
 }

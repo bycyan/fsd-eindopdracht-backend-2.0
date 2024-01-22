@@ -18,8 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    //Deze klasse stelt de beveiligingsconfiguratie in voor een Spring Security-beveiligingsconfiguratie. Het stelt ontwikkelaars in staat om de configure(HttpSecurity http) -methode te overschrijven om beveiligingsregels te definiëren.
-    //todo: classes invullen
     private final CustomUserDetailsService customUserDetailService;
     private final JwtRequestFilter jwtRequestFilter;
 
@@ -38,7 +36,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    //PasswordEncoderBean. Kan evt. hergebruiken in applicatie
+    //PasswordEncoderBean. Kan ik hergebruiken in de applicatie
     @Bean
     public PasswordEncoder passwordEncoder(){return new BCryptPasswordEncoder();
     }
@@ -52,20 +50,26 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeHttpRequests()
 
-                //authentication
-                .requestMatchers("/authenticated").authenticated()
+                //AUTH
                 .requestMatchers("/login").permitAll()
+                .requestMatchers("/authenticated").authenticated()
 
-                //OPEN
-                .requestMatchers(HttpMethod.POST, "/users/contributor").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users/projectmanager").permitAll()
+                //OPEN ENDPOINTS
+                .requestMatchers(HttpMethod.POST, "/users/contributor").permitAll() //todo: verander naar register
+                .requestMatchers(HttpMethod.POST, "/users/projectmanager").permitAll() //todo: deze vervalt wanneer ik alle users contributors maak en bij het aanmaken van een project een role toevoeg
 
-                .requestMatchers("/users/contributor/**").authenticated()
+                //AUTHENTICATED
+                //eigen profiel aanpassen
 
-                //todo: user roles and permissions
-                //All
-                //Role: PROJECTMANAGER
-                //Role: PROJECTCONTRIBUTOR
+                //project aanmaken > dan krijg je een extra rol
+                .requestMatchers(HttpMethod.POST, "/projects/contributor/{contributorId}").authenticated()  //post
+
+                //project wijzigen
+                //items toevoegen aan het project c.q. muziek, messages, tasks
+
+                //PROJECTMANAGER ROLE
+                //put lijst met contributors dus: toevoegen en verwijderen
+                //delete project
 
                 .anyRequest().denyAll()
                 .and()

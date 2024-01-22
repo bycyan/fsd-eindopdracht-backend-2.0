@@ -1,8 +1,7 @@
 package nl.fsd.eindopdracht.soundwwise.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +15,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Project {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String title;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JsonIgnore
+    private User projectmanager;
+
 }
