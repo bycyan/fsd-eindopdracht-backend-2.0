@@ -1,10 +1,8 @@
 package nl.fsd.eindopdracht.soundwwise.dtos.inputdtos;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
 
@@ -28,13 +26,10 @@ public class ContributorInputDto {
 
     public String profileImage;
 
-//    @NotNull(message= "You should choose between workshop owner or customer.")
-//    public Boolean workshopOwner;
-
     //security
     public Boolean enabled;
 
-//    public String apikey;
+    public String apikey;
 
     @JsonSerialize
     public Set<Authority> authorities;

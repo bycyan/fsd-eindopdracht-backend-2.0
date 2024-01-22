@@ -1,11 +1,9 @@
 package nl.fsd.eindopdracht.soundwwise.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,15 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class User {
-
-//    userId
-//    userName
-//    password
-//    firstName
-//    lastName
-//    userImage
-//    userJob
-//    userRole
 
     @Id
     @GeneratedValue

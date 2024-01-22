@@ -2,22 +2,14 @@ package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectmanagerInputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserOwnerInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ContributorOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectmanagerOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserContributerOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOwnerOutputDto;
-import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import nl.fsd.eindopdracht.soundwwise.util.RandomStringGenerator;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

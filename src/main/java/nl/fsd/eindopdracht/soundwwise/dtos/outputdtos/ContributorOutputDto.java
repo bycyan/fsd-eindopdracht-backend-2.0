@@ -15,13 +15,11 @@ public class ContributorOutputDto {
     public String lastName;
     public String email;
 
-//    public Boolean workshopOwner;
-
     public String profileImage;
 
     //security
     public Boolean enabled;
-//    public String apikey;
+    public String apikey;
 
     @JsonSerialize
     public Set<Authority> authorities;

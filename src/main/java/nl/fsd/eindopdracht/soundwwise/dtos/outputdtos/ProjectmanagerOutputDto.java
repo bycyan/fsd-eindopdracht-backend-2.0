@@ -10,18 +10,17 @@ import java.util.Set;
 @Getter
 @Setter
 public class ProjectmanagerOutputDto {
+
     public Long id;
     public String firstName;
     public String lastName;
     public String email;
-
-//    public Boolean workshopOwner;
-
     public String profileImage;
 
     //security
+
     public Boolean enabled;
-//    public String apikey;
+    public String apikey;
 
     @JsonSerialize
     public Set<Authority> authorities;

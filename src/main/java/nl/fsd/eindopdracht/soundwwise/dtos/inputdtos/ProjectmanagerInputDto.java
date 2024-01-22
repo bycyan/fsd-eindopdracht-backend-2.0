@@ -26,13 +26,10 @@ public class ProjectmanagerInputDto {
 
     public String profileImage;
 
-//    @NotNull(message= "You should choose between workshop owner or customer.")
-//    public Boolean workshopOwner;
-
     //security
     public Boolean enabled;
 
-//    public String apikey;
+    public String apikey;
 
     @JsonSerialize
     public Set<Authority> authorities;

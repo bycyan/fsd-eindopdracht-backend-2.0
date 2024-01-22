@@ -1,15 +1,11 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectmanagerInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ContributorOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectmanagerOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOwnerOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.UserService;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserOwnerInputDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -52,14 +48,6 @@ public class UserController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectmanagerOutputDto.id).toUriString());
         return ResponseEntity.created(uri).body(projectmanagerOutputDto);
     }
-
-    //todo: verwijderen:
-//    @PostMapping("/register")
-//    public ResponseEntity<Object> createCustomer(@Valid @RequestBody UserOwnerInputDto customerInputDto, BindingResult bindingResult) {
-//        UserOwnerOutputDto customerOutputDto = userService.createCustomer(customerInputDto);
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + customerOutputDto.id).toUriString());
-//        return ResponseEntity.created(uri).body(customerOutputDto);
-//    }
 
     //PUT
     //@PutMapping("/contributor/{contributorId}") userService.updateContributor(contributorId, contributorInputDto)
