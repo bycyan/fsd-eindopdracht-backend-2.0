@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+    //Deze klasse stelt de beveiligingsconfiguratie in voor een Spring Security-beveiligingsconfiguratie. Het stelt ontwikkelaars in staat om de configure(HttpSecurity http) -methode te overschrijven om beveiligingsregels te definiëren.
     //todo: classes invullen
     private final CustomUserDetailsService customUserDetailService;
     private final JwtRequestFilter jwtRequestFilter;
@@ -52,12 +52,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
 
                 //authenticatie
-                .requestMatchers("/authenticated").authenticated()
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/contributor").permitAll()
+                .requestMatchers("/projectmanager").permitAll()
 
+                .requestMatchers("/authenticated").authenticated()
+
+                .requestMatchers("/login").permitAll()
                 //todo: user roles and permissions
                 //All
                 //Role: ProjectOwner
+                .requestMatchers("/users/customer/**").authenticated() //get, put
                 //Role: ProjectContributor
 
                 .anyRequest().denyAll()

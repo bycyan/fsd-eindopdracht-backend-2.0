@@ -17,22 +17,40 @@ import java.util.Set;
 @Builder
 public class User {
 
+//    userId
+//    userName
+//    password
+//    firstName
+//    lastName
+//    userImage
+//    userJob
+//    userRole
+
     @Id
     @GeneratedValue
     private Long id;
-
     private String firstName;
     private String lastName;
-
-    //Unique user identifier
+    //Unique identifier
     @Column(unique=true)
     private String email;
-
     private String password;
+    private String profileImage;
 
     //Relations
 
+
     //Security
+    @Column
+    private String apikey;
+
+    public void addAuthority(Authority authority) {
+        this.authorities.add(authority);
+    }
+    public void removeAuthority(Authority authority) {
+        this.authorities.remove(authority);
+    }
+
     @OneToMany(
             targetEntity = Authority.class,
             mappedBy = "userId",

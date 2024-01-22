@@ -9,28 +9,19 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserContributerOutputDto {
-    //later verwijderen als security goed aangepast is
-//    public String username;
-
+public class ContributorOutputDto {
     public Long id;
-
     public String firstName;
     public String lastName;
-
     public String email;
-    public String companyName;
-    public String kvkNumber;
-    public String vatNumber;
-    public Boolean workshopOwnerVerified;
 
-    public Boolean workshopOwner;
-    public Double averageRatingReviews;
-    public String profilePicUrl;
+//    public Boolean workshopOwner;
+
+    public String profileImage;
 
     //security
     public Boolean enabled;
-    public String apikey;
+//    public String apikey;
 
     @JsonSerialize
     public Set<Authority> authorities;
