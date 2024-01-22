@@ -4,6 +4,7 @@ import nl.fsd.eindopdracht.soundwwise.filter.JwtRequestFilter;
 import nl.fsd.eindopdracht.soundwwise.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,18 +52,20 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeHttpRequests()
 
-                //authenticatie
-                .requestMatchers("/contributor").permitAll()
-                .requestMatchers("/projectmanager").permitAll()
-
+                //authentication
                 .requestMatchers("/authenticated").authenticated()
-
                 .requestMatchers("/login").permitAll()
+
+                //OPEN
+                .requestMatchers(HttpMethod.POST, "/users/contributor").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/projectmanager").permitAll()
+
+                .requestMatchers("/users/contributor/**").authenticated()
+
                 //todo: user roles and permissions
                 //All
-                //Role: ProjectOwner
-                .requestMatchers("/users/customer/**").authenticated() //get, put
-                //Role: ProjectContributor
+                //Role: PROJECTMANAGER
+                //Role: PROJECTCONTRIBUTOR
 
                 .anyRequest().denyAll()
                 .and()

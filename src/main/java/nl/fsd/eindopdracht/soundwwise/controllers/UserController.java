@@ -1,11 +1,13 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectmanagerInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ContributorOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectmanagerOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import java.net.URI;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     //INJECT
@@ -28,10 +31,17 @@ public class UserController {
     //ENDPOINTS
 
     //GET
-    //@GetMapping("/contributors/{contributorId}") userService.getContributorById(contributorId)
+
+    //@GetMapping("/contributor/{contributorId}") userService.getContributorById(contributorId)
+    @GetMapping("/contributor/{contributorId}")
+    @Transactional
+    public ResponseEntity<ContributorOutputDto> getContributorById(@PathVariable Long contributorId) {
+        return new ResponseEntity<>(userService.getContributorById(contributorId), HttpStatus.OK);
+    }
+
     //@GetMapping("/projectmanagers/{projectmanagerId}") userService.getProjectmanagerById(projectmanagerId)
 
-    //POST//
+    //POST
 
     //@PostMapping("/contributor") userService.createContributor(contributorInputDto)
     @PostMapping("/contributor")
@@ -55,5 +65,5 @@ public class UserController {
     //@PutMapping ("/passwordreset/{email}") userService.updatePassword(email, passwordInputDto)
 
     //DELETE
-    //@DeleteMapping("projectmanager/{userId}")  userService.deleteContributorFromProject(contributorId)
+    //@DeleteMapping("contributor/{userId}")  userService.deleteContributorFromProject(contributorId)
 }

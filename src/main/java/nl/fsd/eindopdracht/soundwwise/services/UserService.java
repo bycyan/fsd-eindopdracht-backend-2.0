@@ -4,12 +4,17 @@ import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectmanagerInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ContributorOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectmanagerOutputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserContributerOutputDto;
+import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import nl.fsd.eindopdracht.soundwwise.util.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +57,15 @@ public class UserService {
         return UserServiceTransferMethod.transferUserToProjectmanagerOutputDto(projectmanager);
     }
 
+    public ContributorOutputDto getContributorById(Long contributorId) {
+        User contributor = userRepository.findById(contributorId).orElseThrow(() -> new RecordNotFoundException("The user with ID " + contributorId + " doesn't exist."));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!CheckAuthorization.isAuthorized(customer, (Collection<GrantedAuthority>) authentication.getAuthorities(), authentication.getName())) {
+//            throw new ForbiddenException("You're not allowed to view this profile.");
+//        }
+//        if (customer.getWorkshopOwner() == true) {
+//            throw new RecordNotFoundException("The user with ID " + customerId + " is a workshop owner and not a customer.");
+//        }
+        return UserServiceTransferMethod.transferUserToContributorOutputDto(contributor);
+    }
 }
