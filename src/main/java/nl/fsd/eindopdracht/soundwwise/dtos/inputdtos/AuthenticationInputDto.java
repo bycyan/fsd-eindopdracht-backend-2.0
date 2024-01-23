@@ -6,13 +6,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AuthenticationInputDto {
-    public String email;
-    public String password;
+    public String authEmail;
+    public String authPassword;
 
     public AuthenticationInputDto() {
     }
     public AuthenticationInputDto(String email, String password) {
-        this.email = email;
-        this.password = password;
+        this.authEmail = email;
+        this.authPassword = password;
     }
 }

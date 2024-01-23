@@ -38,12 +38,12 @@ public class AuthenticationController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> signIn(@RequestBody AuthenticationInputDto authenticationInputDto) {
 
-        String email = authenticationInputDto.getEmail();
-        String password = authenticationInputDto.getPassword();
+        String authEmail = authenticationInputDto.getAuthEmail();
+        String authPassword = authenticationInputDto.getAuthPassword();
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password)
+                    new UsernamePasswordAuthenticationToken(authEmail, authPassword)
             );
         }
         catch (Exception e) {
@@ -51,7 +51,7 @@ public class AuthenticationController {
         }
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(email);
+                .loadUserByUsername(authEmail);
 
         final String jwt = jwtUtil.generateToken(userDetails);
 
