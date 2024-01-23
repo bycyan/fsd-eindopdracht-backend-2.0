@@ -36,9 +36,12 @@ public class ProjectService {
     }
 
    //SERVICES
+
+    //hier is projectmanager nog niet de ROLE projectmanager
+    //todo: wanneer project wordt aangemaakt krijgt user die rol voor dat project
    public ProjectOutputDto createProject(Long projectmanagerId, ProjectInputDto projectInputDto) {
        User projectmanager = userRepository.findById(projectmanagerId).orElseThrow(() -> new RecordNotFoundException("The workshop owner with ID " + projectmanagerId + " doesn't exist."));
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
        Project project = new Project();
        project = transferProjectInputDtoToProject(projectInputDto, project);
@@ -51,37 +54,20 @@ public class ProjectService {
        projectRepository.save(project);
        return transferProjectToProjectOutputDto(project);
    }
-//    public ProjectOutputDto createProject(Long projectmanagerId, ProjectInputDto projectInputDto) {
-//        User projectmanager = userRepository.findById(projectmanagerId).orElseThrow(() -> new RecordNotFoundException("The workshop owner with ID " + projectmanagerId + " doesn't exist."));
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        // Add ROLE_PROJECTMANAGER authority to the user
-//        if (!projectmanager.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PROJECTMANAGER"))) {
-//            projectmanager.addAuthority(new Authority(projectmanager.getId(), "ROLE_PROJECTMANAGER"));
-//            userRepository.save(projectmanager); // Save the updated user with the new authority
-//        }
-//
-//        userService.addRoleProjectManagerAuthority(projectmanager);
-//
-//        Project project = new Project();
-//        project = transferProjectInputDtoToProject(projectInputDto, project);
-////        project.setProjectmanager(projectmanager);
-//
-//        //Add the user that initialises the project to the contributor list
-////        Set<User> contributor = new HashSet<>();
-////        contributor.add(projectmanager);
-////        project.setContributors(contributor);
-//
-//        projectRepository.save(project);
-//        return transferProjectToProjectOutputDto(project);
-//    }
 
-    //// Add other contributors based on their user IDs
+   //todo: edit project (not adding assets only project info)
+
+    //todo: Add contributors to project based on user ids (also when initialising project.)
+
 //        for (Long contributorId : projectInputDto.getContributorIds()) {
 //            User contributor = userRepository.findById(contributorId)
 //                    .orElseThrow(() -> new RecordNotFoundException("Contributor with ID " + contributorId + " not found."));
 //            contributors.add(contributor);
 //        }
+
+    //todo: Remove contributors
+
+    //todo: Delete project
 
     //TRANSFER METHODS
     public Project transferProjectInputDtoToProject(ProjectInputDto projectInputDto, Project project) {

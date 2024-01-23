@@ -1,7 +1,7 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
+//import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.ProjectService;
@@ -23,6 +23,7 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
+    //geeft in de uri de user mee
     @PostMapping("/contributor/{contributorId}")
     public ResponseEntity<Object> createProject(@PathVariable Long contributorId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()){
@@ -32,4 +33,5 @@ public class ProjectController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.id).toUriString());
         return ResponseEntity.created(uri).body(projectOutputDto);
     }
+
 }

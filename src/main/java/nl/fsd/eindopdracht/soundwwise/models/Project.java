@@ -22,15 +22,15 @@ public class Project {
 
     private String projectName;
 
-//    public void setProjectmanager(User projectmanager) {
-//    }
+    //todo: verwerken in dto;s
+    private String projectCoverImage;
 
-//    private String projectCoverImage;
-//
+
     @ManyToOne
     @JsonIgnore
     private User projectmanager;
 
+    //todo: dit niet wijzigen wanneer de User wordt aangepast van contributor naar user (die rol_contributor krijgt)
     @ManyToMany
     @JoinTable(
             name = "project_contributors",

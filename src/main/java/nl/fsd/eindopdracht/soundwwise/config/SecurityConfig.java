@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers("/authenticated").authenticated()
 
                 //OPEN ENDPOINTS
+                .requestMatchers(HttpMethod.POST, "/users").permitAll()
                 .requestMatchers(HttpMethod.POST, "/users/contributor").permitAll() //todo: verander naar register
                 .requestMatchers(HttpMethod.POST, "/users/projectmanager").permitAll() //todo: deze vervalt wanneer ik alle users contributors maak en bij het aanmaken van een project een role toevoeg
 

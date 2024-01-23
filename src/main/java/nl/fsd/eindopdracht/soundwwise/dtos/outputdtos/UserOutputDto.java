@@ -9,22 +9,19 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserOwnerOutputDto {
+public class UserOutputDto {
 
-    public Long id;
-    public String firstName;
-    public String lastName;
-    public String email;
+    //GENERAL VARS
+    public Long userId;
+    public String userFirstName;
+    public String userLastName;
+    public String userEmail;
+    public String userProfileImage;
 
-    public Boolean workshopOwner;
-
-    public String profilePicUrl;
-
-    //security
-    public Boolean enabled;
-//    public String apikey;
+    //SECURITY
+    public Boolean userEnabled;
+    public String userApikey;
 
     @JsonSerialize
     public Set<Authority> authorities;
-
 }
