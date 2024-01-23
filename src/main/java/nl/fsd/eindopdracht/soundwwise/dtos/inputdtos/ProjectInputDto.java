@@ -12,6 +12,13 @@ import java.util.Set;
 @Getter
 @Setter
 public class ProjectInputDto {
-    @NotBlank(message = "can't be empty.")
+
+    @NotBlank(message = "")
     public String projectName;
+
+    private String projectCoverImage;
+
+    private Long projectManagerId;
+
+    private Set<Long> contributorIds;
 }

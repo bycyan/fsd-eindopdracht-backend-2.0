@@ -16,21 +16,19 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
+
+    //GENERAL
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long projectId;
     private String projectName;
-
-    //todo: verwerken in dto;s
     private String projectCoverImage;
 
-
+    //RELATIONS
     @ManyToOne
     @JsonIgnore
     private User projectmanager;
 
-    //todo: dit niet wijzigen wanneer de User wordt aangepast van contributor naar user (die rol_contributor krijgt)
     @ManyToMany
     @JoinTable(
             name = "project_contributors",

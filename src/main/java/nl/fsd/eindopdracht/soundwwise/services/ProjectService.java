@@ -77,8 +77,11 @@ public class ProjectService {
 
     public ProjectOutputDto transferProjectToProjectOutputDto(Project project) {
         ProjectOutputDto projectOutputDto = new ProjectOutputDto();
-        projectOutputDto.id = project.getId();
+        projectOutputDto.id = project.getProjectId();
         projectOutputDto.projectName = project.getProjectName();
+        projectOutputDto.projectCoverImage = project.getProjectCoverImage();
+        projectOutputDto.projectManagerId = project.getProjectmanager().getId();
+        projectOutputDto.contributorIds = project.getContributors();
         return projectOutputDto;
     }
 }

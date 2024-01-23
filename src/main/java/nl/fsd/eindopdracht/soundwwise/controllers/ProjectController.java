@@ -17,13 +17,16 @@ import java.net.URI;
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
+
+    //INJECT
     private final ProjectService projectService;
 
+    //CONSTRUCT
     public ProjectController(ProjectService projectService) {
         this.projectService = projectService;
     }
 
-    //geeft in de uri de user mee
+    //ENDPOINTS
     @PostMapping("/contributor/{contributorId}")
     public ResponseEntity<Object> createProject(@PathVariable Long contributorId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()){
