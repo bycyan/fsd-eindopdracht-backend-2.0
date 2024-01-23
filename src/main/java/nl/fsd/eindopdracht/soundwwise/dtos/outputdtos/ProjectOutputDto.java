@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class ProjectOutputDto {
     public Long id;
-    public String title;
+    public String projectName;
 }

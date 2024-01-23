@@ -62,6 +62,7 @@ public class SecurityConfig {
                 //eigen profiel aanpassen
 
                 //project aanmaken > dan krijg je een extra rol
+//                .requestMatchers(HttpMethod.POST, "/projects/projectmanager/{projectmanagerId}").authenticated()  //post
                 .requestMatchers(HttpMethod.POST, "/projects/contributor/{contributorId}").authenticated()  //post
 
                 //project wijzigen

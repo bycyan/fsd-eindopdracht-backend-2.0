@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,5 +68,12 @@ public class UserService {
 //            throw new RecordNotFoundException("The user with ID " + customerId + " is a workshop owner and not a customer.");
 //        }
         return UserServiceTransferMethod.transferUserToContributorOutputDto(contributor);
+    }
+
+    public void addRoleProjectManagerAuthority(User user) {
+        if (!user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PROJECTMANAGER"))) {
+            user.addAuthority(new Authority(user.getId(), "ROLE_PROJECTMANAGER"));
+            userRepository.save(user);
+        }
     }
 }

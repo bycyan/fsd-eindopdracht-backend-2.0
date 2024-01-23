@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -18,10 +20,23 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String projectName;
 
+//    public void setProjectmanager(User projectmanager) {
+//    }
+
+//    private String projectCoverImage;
+//
     @ManyToOne
     @JsonIgnore
     private User projectmanager;
+
+    @ManyToMany
+    @JoinTable(
+            name = "project_contributors",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "contributor_id")
+    )
+    private Set<User> contributors;
 
 }
