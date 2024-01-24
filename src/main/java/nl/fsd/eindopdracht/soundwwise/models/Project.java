@@ -27,7 +27,7 @@ public class Project {
     //RELATIONS
     @ManyToOne
     @JsonIgnore
-    private User projectmanager;
+    private User projectOwner;
 
     @ManyToMany
     @JoinTable(

@@ -1,9 +1,11 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
+import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import nl.fsd.eindopdracht.soundwwise.util.RandomStringGenerator;
@@ -44,7 +46,7 @@ public class UserService {
         UserServiceTransferMethod.transferUserInputDtoToUser(user, userInputDto, passwordEncoder);
         user.setApikey(randomString);
         userRepository.save(user);
-        user.addAuthority(new Authority(user.getId(), "ROLE_ASS"));
+        user.addAuthority(new Authority(user.getId(), "ROLE_USER"));
         userRepository.save(user);
         return UserServiceTransferMethod.transferUserToUserOutputDto(user);
     }
@@ -69,11 +71,8 @@ public class UserService {
     }
 
     //todo: implement
-    //Endpoint:
-    public void addRoleProjectManagerAuthority(User user) {
-        if (!user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PROJECTMANAGER"))) {
-            user.addAuthority(new Authority(user.getId(), "ROLE_PROJECTMANAGER"));
-            userRepository.save(user);
-        }
+    public void addAuthorityForOwner(Long userId) {
+        User updatedUser = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
+        updatedUser.addAuthority(new Authority(updatedUser.getId(), "ROLE_OWNER"));
     }
 }

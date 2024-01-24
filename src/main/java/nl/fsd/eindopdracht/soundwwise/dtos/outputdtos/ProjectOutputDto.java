@@ -12,7 +12,7 @@ public class ProjectOutputDto {
     public Long id;
     public String projectName;
     public String projectCoverImage;
+    public Long projectOwnerId;
+    public Set<User> contributor;
 
-    public Long projectManagerId;
-    public Set<User> contributorIds;
 }

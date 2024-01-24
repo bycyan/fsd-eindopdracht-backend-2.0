@@ -1,7 +1,6 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
-//import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ContributorInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.ProjectService;
@@ -15,7 +14,7 @@ import java.net.URI;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/project")
 public class ProjectController {
 
     //INJECT
@@ -27,12 +26,14 @@ public class ProjectController {
     }
 
     //ENDPOINTS
-    @PostMapping("/contributor/{contributorId}")
-    public ResponseEntity<Object> createProject(@PathVariable Long contributorId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
+
+    //POST
+    @PostMapping("/new/{userId}")
+    public ResponseEntity<Object> createProject(@PathVariable Long userId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()){
             return ResponseEntity.badRequest().body(FieldErrorHandling.getErrorToStringHandling(bindingResult));
         }
-        ProjectOutputDto projectOutputDto = projectService.createProject(contributorId, projectInputDto);
+        ProjectOutputDto projectOutputDto = projectService.createProject(userId, projectInputDto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.id).toUriString());
         return ResponseEntity.created(uri).body(projectOutputDto);
     }

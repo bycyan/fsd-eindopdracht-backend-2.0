@@ -51,29 +51,27 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
 
                 //AUTH
+                .requestMatchers(HttpMethod.POST, "/user/register").permitAll() //createUser
+
                 .requestMatchers("/login").permitAll()
                 .requestMatchers("/authenticated").authenticated()
 
                 //OPEN ENDPOINTS
-                .requestMatchers(HttpMethod.POST, "/user/register").permitAll() //createUser
-//                .requestMatchers(HttpMethod.POST, "/users/contributor").permitAll() //todo: verander naar register
-//                .requestMatchers(HttpMethod.POST, "/users/projectmanager").permitAll() //todo: deze vervalt wanneer ik alle users contributors maak en bij het aanmaken van een project een role toevoeg
 
                 //AUTHENTICATED
                 .requestMatchers("/user/{userId}").authenticated() //getUserById
                 .requestMatchers("/user/update/{userId}").authenticated() //updateUser
                 .requestMatchers("/user/delete/{userId}").authenticated() //deleteUser
 
-                //project aanmaken > dan krijg je een extra rol
-//                .requestMatchers(HttpMethod.POST, "/projects/projectmanager/{projectmanagerId}").authenticated()  //post
-                .requestMatchers(HttpMethod.POST, "/projects/contributor/{contributorId}").authenticated()  //post
+                .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
 
-                //project wijzigen
-                //items toevoegen aan het project c.q. muziek, messages, tasks
+                //ROLE_CONTRIBUTOR
+                //je mag de projecten zien waar je collaborator voor bent
+                // /project/{projectId}
 
-                //PROJECTMANAGER ROLE
-                //put lijst met contributors dus: toevoegen en verwijderen
+                //ROLE_OWNER
                 //delete project
+                //add contributors
 
                 .anyRequest().denyAll()
                 .and()

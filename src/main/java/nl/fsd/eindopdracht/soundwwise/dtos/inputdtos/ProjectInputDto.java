@@ -16,9 +16,9 @@ public class ProjectInputDto {
     @NotBlank(message = "")
     public String projectName;
 
-    private String projectCoverImage;
+    public String projectCoverImage;
 
-    private Long projectManagerId;
+    private Long projectOwnerId;
 
-    private Set<Long> contributorIds;
+    private Set<Long> contributor;
 }

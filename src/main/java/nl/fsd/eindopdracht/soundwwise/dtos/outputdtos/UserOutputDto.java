@@ -24,4 +24,5 @@ public class UserOutputDto {
 
     @JsonSerialize
     public Set<Authority> authorities;
+
 }
