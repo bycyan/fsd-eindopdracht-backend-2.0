@@ -9,6 +9,7 @@ import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 //import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectmanagerOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.UserService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,7 @@ import java.net.URI;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     //INJECT
@@ -33,50 +34,32 @@ public class UserController {
     //ENDPOINTS
 
     //GET
-
-    //@GetMapping("/contributor/{contributorId}") userService.getContributorById(contributorId)
-    //todo: veranderen naar /user algemeen
-//    @GetMapping("/contributor/{contributorId}")
-//    @Transactional
-//    public ResponseEntity<ContributorOutputDto> getContributorById(@PathVariable Long contributorId) {
-//        return new ResponseEntity<>(userService.getContributorById(contributorId), HttpStatus.OK);
-//    }
-
-    //@GetMapping("/projectmanagers/{projectmanagerId}") userService.getProjectmanagerById(projectmanagerId)
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserOutputDto> getCustomerById(@PathVariable Long userId) {
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+    }
 
     //POST
-
-    //todo: UserInputDto, OutputDto, Service aanmaken
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult){
         UserOutputDto userOutputDto = userService.createUser(userInputDto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + userOutputDto.userId).toUriString());
         return ResponseEntity.created(uri).body(userOutputDto);
     }
 
-    ////
-
-    //todo: deze laten vervallen
-//    @PostMapping("/contributor")
-//    public ResponseEntity<Object> createContributor(@Valid @RequestBody ContributorInputDto contributorInputDto, BindingResult bindingResult){
-//        ContributorOutputDto contributorOutputDto = userService.createContributor(contributorInputDto);
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + contributorOutputDto.id).toUriString());
-//        return ResponseEntity.created(uri).body(contributorOutputDto);
-//    }
-//
-//    //@PostMapping("/projectmanager") userService.createProjectmanager(projectmanagerInputDto)
-//    @PostMapping("/projectmanager")
-//    public ResponseEntity<Object> createProjectmanager(@Valid @RequestBody ProjectmanagerInputDto projectmanagerInputDto, BindingResult bindingResult){
-//        ProjectmanagerOutputDto projectmanagerOutputDto = userService.createProjectmanager(projectmanagerInputDto);
-//        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectmanagerOutputDto.id).toUriString());
-//        return ResponseEntity.created(uri).body(projectmanagerOutputDto);
-//    }
-
     //PUT
-    //@PutMapping("/contributor/{contributorId}") userService.updateContributor(contributorId, contributorInputDto)
-    //@PutMapping("/projectmanager/{projectmanagerId}") userService.updateProjectmanager(projectmanagerId, projectmanagerInputDto)
-    //@PutMapping ("/passwordreset/{email}") userService.updatePassword(email, passwordInputDto)
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<Object> updateUser(@PathVariable Long userId, @Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
+        UserOutputDto userOutputDto = userService.updateUser(userId, userInputDto);
+        return new ResponseEntity<>(userOutputDto, HttpStatus.OK);
+    }
 
     //DELETE
-    //@DeleteMapping("contributor/{userId}")  userService.deleteContributorFromProject(contributorId)
+    @DeleteMapping("delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) throws BadRequestException {
+        //todo: kan de user niet verwijderen wanneer er een project gekoppeld is
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
