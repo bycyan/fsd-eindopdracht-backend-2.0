@@ -1,18 +1,15 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
-import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import nl.fsd.eindopdracht.soundwwise.util.RandomStringGenerator;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -70,9 +67,12 @@ public class UserService {
         }
     }
 
-    //todo: implement
+
     public void addAuthorityForOwner(Long userId) {
         User updatedUser = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
         updatedUser.addAuthority(new Authority(updatedUser.getId(), "ROLE_OWNER"));
+        updatedUser.addAuthority(new Authority(updatedUser.getId(), "ROLE_CONTRIBUTOR"));
     }
+
+    //todo: add authority for contributor
 }

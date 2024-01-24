@@ -18,7 +18,6 @@ public class ProjectService {
     //INJECT
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-
     private final UserService userService;
 
     //CONSTRUCT
@@ -30,7 +29,7 @@ public class ProjectService {
 
    //SERVICES
 
-    //Endpoint: /project/new/{userId}
+   //Endpoint: /project/new/{userId}
    public ProjectOutputDto createProject(Long userId, ProjectInputDto projectInputDto) {
        User projectOwner = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
 
@@ -42,15 +41,22 @@ public class ProjectService {
        Set<User> contributor = new HashSet<>();
        contributor.add(projectOwner);
        project.setContributors(contributor);
+       //
 
        projectRepository.save(project);
 
        //Assign ROLE_OWNER
        userService.addAuthorityForOwner(projectOwner.getId());
+
        return transferProjectToProjectOutputDto(project);
    }
 
-    //TRANSFER METHODS
+
+
+   //////////////////////////////////////////////////////
+   //TRANSFER METHODS
+   //////////////////////////////////////////////////////
+
     public Project transferProjectInputDtoToProject(ProjectInputDto projectInputDto, Project project) {
         project.setProjectName(projectInputDto.projectName);
         project.setProjectCoverImage(projectInputDto.projectCoverImage);
