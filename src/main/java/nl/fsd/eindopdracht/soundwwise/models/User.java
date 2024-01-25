@@ -1,6 +1,5 @@
 package nl.fsd.eindopdracht.soundwwise.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Data
 public class User {
 
     @Id
@@ -30,8 +29,6 @@ public class User {
     private String profileImage;
 
     //Relations
-
-    //todo: lijst met projecten? of koppeltabel met projecten en aangesloten mensen
 
     //Security
     @Column(nullable = false)
@@ -53,4 +50,12 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+
+    //new
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+//    )
+//    private List<Role> roles = new ArrayList<>();
+
 }

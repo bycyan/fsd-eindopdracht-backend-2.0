@@ -70,7 +70,7 @@ public class SecurityConfig {
                 // /project/{projectId}
 
                 //ROLE_OWNER
-                //delete project
+                .requestMatchers(HttpMethod.DELETE, "/project/delete/{projectId}").hasRole("USER")//delete project
                 //add contributors
 
                 .anyRequest().denyAll()

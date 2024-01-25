@@ -2,6 +2,7 @@ package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
+import nl.fsd.eindopdracht.soundwwise.exceptions.BadRequestException;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.User;
@@ -51,6 +52,17 @@ public class ProjectService {
        return transferProjectToProjectOutputDto(project);
    }
 
+    //Endpoint: /project/{projectId} //todo: only when owner role
+    public void deleteProject(Long projectId) throws BadRequestException {
+        try{
+            Project project = projectRepository.findById(projectId)
+                    .orElseThrow(() -> new RecordNotFoundException("Project not found with id: " + projectId));
+            projectRepository.delete(project);
+        } catch (Exception e){
+            throw new BadRequestException("You can't remove this user before removing the other items.");
+        }
+    }
+
 
 
    //////////////////////////////////////////////////////
@@ -72,4 +84,6 @@ public class ProjectService {
         projectOutputDto.contributor = project.getContributors();
         return projectOutputDto;
     }
+
+
 }

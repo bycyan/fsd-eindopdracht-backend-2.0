@@ -5,6 +5,8 @@ import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.ProjectService;
 import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
+import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,13 @@ public class ProjectController {
         ProjectOutputDto projectOutputDto = projectService.createProject(userId, projectInputDto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.id).toUriString());
         return ResponseEntity.created(uri).body(projectOutputDto);
+    }
+
+    //DELETE
+    @DeleteMapping("delete/{projectId}")
+    public ResponseEntity<String> deleteProject(@PathVariable Long projectId) throws BadRequestException {
+    projectService.deleteProject(projectId);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
