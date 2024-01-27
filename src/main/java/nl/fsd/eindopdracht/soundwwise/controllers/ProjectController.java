@@ -2,7 +2,9 @@ package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.ProjectService;
 import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
 import org.apache.coyote.BadRequestException;
@@ -38,6 +40,13 @@ public class ProjectController {
         ProjectOutputDto projectOutputDto = projectService.createProject(userId, projectInputDto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.id).toUriString());
         return ResponseEntity.created(uri).body(projectOutputDto);
+    }
+
+    //PUT
+    @PutMapping("/update/{projectId}")
+    public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
+        ProjectOutputDto projectOutputDto = projectService.updateProject(projectId, projectInputDto);
+        return new ResponseEntity<>(projectOutputDto, HttpStatus.OK);
     }
 
     //DELETE

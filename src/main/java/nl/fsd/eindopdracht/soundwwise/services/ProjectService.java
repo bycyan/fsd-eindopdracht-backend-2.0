@@ -1,9 +1,12 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.BadRequestException;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
+import nl.fsd.eindopdracht.soundwwise.models.Authority;
 import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.ProjectRepository;
@@ -47,12 +50,24 @@ public class ProjectService {
        projectRepository.save(project);
 
        //Assign ROLE_OWNER
+//       projectOwner.addAuthority(new Authority(projectOwner.getId(), "ROLE_OWNER"));
 //       userService.addAuthorityForOwner(projectOwner.getId());
 
        return transferProjectToProjectOutputDto(project);
    }
 
-    //Endpoint: /project/{projectId} //todo: only when owner role
+    //Endpoint: /project/update/{projectId}
+    public ProjectOutputDto updateProject(Long projectId, ProjectInputDto projectInputDto) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException(""));
+
+//        userInputDto.userPassword = null;
+        projectRepository.save(transferProjectInputDtoToProject(projectInputDto, project));
+        return transferProjectToProjectOutputDto(project);
+    }
+
+
+    //Endpoint: /project/{projectId} //todo: only when owner role, nu is het werkbaar met USER.
+    //De USER krijgt wel een extra rol bij het project, maar niet bij de user zelf in de response
     public void deleteProject(Long projectId) throws BadRequestException {
         try{
             Project project = projectRepository.findById(projectId)

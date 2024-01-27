@@ -70,7 +70,9 @@ public class SecurityConfig {
                 // /project/{projectId}
 
                 //ROLE_OWNER
-                .requestMatchers("/project/delete/{projectId}").hasAnyRole("USER")//delete project
+                //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
+                .requestMatchers("/project/delete/{projectId}").hasRole("USER")//delete project
+                .requestMatchers("/project/update/{projectId}").hasRole("USER")//delete project
                 //add contributors
 
                 .anyRequest().denyAll()

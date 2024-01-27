@@ -81,7 +81,4 @@ public class UserService {
 
     //todo: add authority for contributor
 
-
-
-    //1. GrantedAuthorities
 }
