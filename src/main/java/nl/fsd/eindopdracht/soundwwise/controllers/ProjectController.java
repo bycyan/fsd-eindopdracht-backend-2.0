@@ -41,7 +41,7 @@ public class ProjectController {
     }
 
     //DELETE
-    @DeleteMapping("delete/{projectId}")
+    @DeleteMapping("/delete/{projectId}")
     public ResponseEntity<String> deleteProject(@PathVariable Long projectId) throws BadRequestException {
     projectService.deleteProject(projectId);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

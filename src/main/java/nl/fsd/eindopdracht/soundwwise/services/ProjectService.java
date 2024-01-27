@@ -47,7 +47,7 @@ public class ProjectService {
        projectRepository.save(project);
 
        //Assign ROLE_OWNER
-       userService.addAuthorityForOwner(projectOwner.getId());
+//       userService.addAuthorityForOwner(projectOwner.getId());
 
        return transferProjectToProjectOutputDto(project);
    }
@@ -59,7 +59,7 @@ public class ProjectService {
                     .orElseThrow(() -> new RecordNotFoundException("Project not found with id: " + projectId));
             projectRepository.delete(project);
         } catch (Exception e){
-            throw new BadRequestException("You can't remove this user before removing the other items.");
+            throw new BadRequestException("");
         }
     }
 
