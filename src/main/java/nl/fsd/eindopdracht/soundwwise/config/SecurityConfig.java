@@ -57,6 +57,7 @@ public class SecurityConfig {
                 .requestMatchers("/authenticated").authenticated()
 
                 //OPEN ENDPOINTS
+                .requestMatchers("/uploadUserImage/{userId}").authenticated()
 
                 //AUTHENTICATED
                 .requestMatchers("/user/{userId}").authenticated() //getUserById
