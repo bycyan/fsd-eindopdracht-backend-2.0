@@ -6,4 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SongOutputDto {
+
+    public Long songId;
+
+    public String songName;
+    public String songUrl;
+
 }

@@ -42,6 +42,8 @@ public class ProjectController {
         return ResponseEntity.created(uri).body(projectOutputDto);
     }
 
+
+
     //PUT
     @PutMapping("/update/{projectId}")
     public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
