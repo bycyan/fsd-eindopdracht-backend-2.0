@@ -24,21 +24,23 @@ public class FileController {
 
     //ENDPOINTS
     @CrossOrigin
-    @PostMapping("/uploadUserImage/{userId}")
+    @PostMapping("/upload/{userId}")
     public ResponseEntity<Object> imageUpload(@PathVariable Long userId, @RequestParam("file") MultipartFile file) throws IOException {
         try {
+            //goed
             if (userId == null) {
                 return ResponseEntity.badRequest().body("User ID cannot be null");
             }
-            String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/userImage/").path(Objects.requireNonNull(userId.toString())).toUriString();
 
-            String fileName = fileService.storeFile(file, url, userId);
-            return ResponseEntity.ok("File uploaded successfully. URL: " + url + ", FileName: " + fileName);
+            String urlOfFile = ServletUriComponentsBuilder.fromCurrentContextPath().path("/userImage/").path(Objects.requireNonNull(userId.toString())).toUriString();
+
+            String fileName = fileService.storeFile(file, urlOfFile, userId);
+            return ResponseEntity.ok("File uploaded successfully. URL: " + urlOfFile + ", FileName: " + fileName);
         } catch (Exception e) {
             // Log the exception details
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
         }
-
     }
 
     //GET

@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .requestMatchers("/authenticated").authenticated()
 
                 //OPEN ENDPOINTS
-                .requestMatchers("/uploadUserImage/{userId}").authenticated()
+                .requestMatchers("/upload/{userId}").authenticated()
 
                 //AUTHENTICATED
                 .requestMatchers("/user/{userId}").authenticated() //getUserById
@@ -65,7 +65,6 @@ public class SecurityConfig {
                 .requestMatchers("/user/delete/{userId}").authenticated() //deleteUser
 
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
-
 
                 //ROLE_CONTRIBUTOR
                 .requestMatchers(HttpMethod.POST, "/song/add/{projectId}").authenticated()//addSong
@@ -75,7 +74,7 @@ public class SecurityConfig {
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
                 .requestMatchers("/project/delete/{projectId}").hasRole("USER")//delete project
-                .requestMatchers("/project/update/{projectId}").hasRole("USER")//delete project
+                .requestMatchers("/project/update/{projectId}").hasRole("USER")//update project
                 //add contributors
 
                 .anyRequest().denyAll()
