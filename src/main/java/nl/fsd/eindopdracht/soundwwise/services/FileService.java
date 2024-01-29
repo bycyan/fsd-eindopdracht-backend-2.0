@@ -4,24 +4,24 @@ import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.User;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.Objects;
 
 @Service
 public class FileService {
 
-//    @Value("{src/resources/uploads}")
     private final Path fileStoragePath;
     private final String fileStorageLocation;
     private final UserRepository userRepository;
@@ -38,12 +38,17 @@ public class FileService {
         }
     }
 
+
+    ////////////////////////////////
+    //PROFILE IMAGE
+    ////////////////////////////////
+
     public String storeFile(MultipartFile file, String url, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("The user with ID " + userId + " doesn't exist."));
 
         try {
             if (user.getProfileImage() != null) {
-                Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getFileName());
+                Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getProfileImage());
                 Files.deleteIfExists(path);
             }
 
@@ -59,6 +64,39 @@ public class FileService {
         } catch (IOException e) {
             throw new RuntimeException("Issue in storing the file", e);
         }
+    }
+
+    public Resource getFile(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User with ID: " + userId + " doesn't exist."));
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getProfileImage());
+        Resource resource;
+        try {
+            resource = new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Issue in reading the file", e);
+        }
+        return resource;
+
+    }
+
+    public boolean deleteProfilePic(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("The user with ID " + userId + " doesn't exist."));
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (!CheckAuthorization.isAuthorized(user, (Collection<GrantedAuthority>) authentication.getAuthorities(), authentication.getName())) {
+//            throw new ForbiddenException("You're not allowed to delete the photo of this profile.");
+//        }
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getProfileImage());
+
+        user.setProfileImage(null);
+        userRepository.save(user);
+
+        try {
+            return Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new RuntimeException("A problem occurred with deleting: " + user.getProfileImage());
+        }
+
+
     }
 
 }

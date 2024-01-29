@@ -1,7 +1,12 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import nl.fsd.eindopdracht.soundwwise.exceptions.BadRequestException;
 import nl.fsd.eindopdracht.soundwwise.services.FileService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,5 +49,27 @@ public class FileController {
     }
 
     //GET
+    @GetMapping("/download/{userId}")
+    public ResponseEntity<Object> downloadProfilePic(@PathVariable Long userId, HttpServletRequest request) {
+        Resource resource = fileService.getFile(userId);
+        MediaType contentType = MediaType.IMAGE_JPEG;
+        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
+    }
+
     //DELETE
+    @DeleteMapping("/deleteprofilepic/{userId}")
+    public ResponseEntity<Object> deleteProfilePic(@PathVariable Long userId) {
+
+        if (fileService.deleteProfilePic(userId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        }
+        if (fileService.deleteProfilePic(userId)) {
+            return ResponseEntity.ok("Profile picture of user with ID : " + userId + " is deleted");
+        } else {
+            throw new BadRequestException("file does not exist in the system");
+        }
+
+
+    }
 }

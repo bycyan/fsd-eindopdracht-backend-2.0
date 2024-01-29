@@ -57,12 +57,15 @@ public class SecurityConfig {
                 .requestMatchers("/authenticated").authenticated()
 
                 //OPEN ENDPOINTS
-                .requestMatchers("/upload/{userId}").authenticated()
+                .requestMatchers("/download/{userId}").permitAll() //getUserImageById
 
                 //AUTHENTICATED
                 .requestMatchers("/user/{userId}").authenticated() //getUserById
                 .requestMatchers("/user/update/{userId}").authenticated() //updateUser
                 .requestMatchers("/user/delete/{userId}").authenticated() //deleteUser
+
+                .requestMatchers("/upload/{userId}").authenticated()//uploadUserImage
+                .requestMatchers("/deleteprofilepic/{userId}").authenticated()//uploadUserImage
 
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
 
