@@ -52,7 +52,7 @@ public class FileService {
 
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            user.setFileName(fileName);
+            user.setProfileImage(fileName);
             userRepository.save(user);
 
             return fileName;
