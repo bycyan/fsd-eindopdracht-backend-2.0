@@ -1,7 +1,9 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
+import nl.fsd.eindopdracht.soundwwise.models.Song;
 import nl.fsd.eindopdracht.soundwwise.models.User;
+import nl.fsd.eindopdracht.soundwwise.repositories.SongRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -26,10 +28,13 @@ public class FileService {
     private final String fileStorageLocation;
     private final UserRepository userRepository;
 
-    public FileService(@Value("${file.storage.location}") String fileStorageLocation, UserRepository userRepository) {
+    private final SongRepository songRepository;
+
+    public FileService(@Value("${file.storage.location}") String fileStorageLocation, UserRepository userRepository, SongRepository songRepository) {
         this.fileStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
         this.fileStorageLocation = fileStorageLocation;
         this.userRepository = userRepository;
+        this.songRepository = songRepository;
 
         try {
             Files.createDirectories(fileStoragePath);
@@ -98,5 +103,29 @@ public class FileService {
 
 
     }
+
+    public String storeSong(MultipartFile file, Long songId) {
+        Song song = songRepository.findById(songId).orElseThrow(() -> new RecordNotFoundException(""));
+
+        try {
+            if (song.getSongUrl() != null) {
+                Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(song.getSongUrl());
+                Files.deleteIfExists(path);
+            }
+
+            String songName = StringUtils.cleanPath(file.getOriginalFilename() + String.valueOf(Date.from(Instant.now()).getTime()));
+            Path filePath = Paths.get(fileStorageLocation).toAbsolutePath().resolve(songName);
+
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            song.setSongUrl(songName);
+            songRepository.save(song);
+
+            return songName;
+        } catch (IOException e) {
+            throw new RuntimeException("Issue in storing the file", e);
+        }
+    }
+
 
 }

@@ -49,6 +49,8 @@ public class ProjectService {
 
        projectRepository.save(project);
 
+//       Authority newAuthority = new Authority(projectOwner.getId(), "ROLE_OWNER");
+//       projectOwner.addAuthority(newAuthority);
        //Assign ROLE_OWNER
 //       projectOwner.addAuthority(new Authority(projectOwner.getId(), "ROLE_OWNER"));
 //       userService.addAuthorityForOwner(projectOwner.getId());
