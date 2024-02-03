@@ -70,9 +70,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
 
                 //ROLE_CONTRIBUTOR
-                .requestMatchers(HttpMethod.POST, "/song/add/{projectId}").authenticated()//addSong
-                //je mag de projecten zien waar je collaborator voor bent
-                // /project/{projectId}
+                .requestMatchers("/song/add/{projectId}").authenticated()//addSong
+                .requestMatchers("/uploadSong/{songId}").authenticated()//addSongFile
+                .requestMatchers("/downloadSong/{songId}").authenticated()//downloadSongFile
+                .requestMatchers("/deleteSong/{songId}").authenticated()//deleteSongFile
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden

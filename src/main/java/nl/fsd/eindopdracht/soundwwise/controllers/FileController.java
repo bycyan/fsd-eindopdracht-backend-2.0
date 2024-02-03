@@ -70,6 +70,47 @@ public class FileController {
             throw new BadRequestException("file does not exist in the system");
         }
 
+    }
+
+    @CrossOrigin
+    @PostMapping("/uploadSong/{songId}")
+    public ResponseEntity<Object> songUpload(@PathVariable Long songId, @RequestParam("file") MultipartFile file) throws IOException {
+        try {
+            //goed
+            if (songId == null) {
+                return ResponseEntity.badRequest().body("message");
+            }
+
+            String urlOfFile = ServletUriComponentsBuilder.fromCurrentContextPath().path("/songFile/").path(Objects.requireNonNull(songId.toString())).toUriString();
+
+            String fileName = fileService.storeSong(file, urlOfFile, songId);
+            return ResponseEntity.ok("File uploaded successfully. URL: " + urlOfFile + ", FileName: " + fileName);
+        } catch (Exception e) {
+            // Log the exception details
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
+    }
+
+    @GetMapping("/downloadSong/{songId}")
+    public ResponseEntity<Object> downloadSong(@PathVariable Long songId, HttpServletRequest request) {
+        Resource resource = fileService.getSong(songId);
+        MediaType contentType = MediaType.parseMediaType("audio/mp3");
+        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
+    }
+
+    @DeleteMapping("/deleteSong/{songId}")
+    public ResponseEntity<Object> deleteSong(@PathVariable Long songId) {
+
+        if (fileService.deleteSong(songId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        }
+        if (fileService.deleteSong(songId)) {
+            return ResponseEntity.ok("");
+        } else {
+            throw new BadRequestException("file does not exist in the system");
+        }
 
     }
 }

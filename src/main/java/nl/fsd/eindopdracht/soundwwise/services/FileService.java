@@ -104,7 +104,11 @@ public class FileService {
 
     }
 
-    public String storeSong(MultipartFile file, Long songId) {
+    ////////////////////////////////
+    //SONG
+    ////////////////////////////////
+
+    public String storeSong(MultipartFile file, String url, Long songId) {
         Song song = songRepository.findById(songId).orElseThrow(() -> new RecordNotFoundException(""));
 
         try {
@@ -113,18 +117,46 @@ public class FileService {
                 Files.deleteIfExists(path);
             }
 
-            String songName = StringUtils.cleanPath(file.getOriginalFilename() + String.valueOf(Date.from(Instant.now()).getTime()));
-            Path filePath = Paths.get(fileStorageLocation).toAbsolutePath().resolve(songName);
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename() + String.valueOf(Date.from(Instant.now()).getTime()));
+            Path filePath = Paths.get(fileStorageLocation).toAbsolutePath().resolve(fileName);
 
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            song.setSongUrl(songName);
+            song.setSongUrl(fileName);
             songRepository.save(song);
 
-            return songName;
+            return fileName;
         } catch (IOException e) {
             throw new RuntimeException("Issue in storing the file", e);
         }
+    }
+
+    public Resource getSong(Long songId) {
+        Song song = songRepository.findById(songId).orElseThrow(() -> new RecordNotFoundException(""));
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(song.getSongUrl());
+        Resource resource;
+        try {
+            resource = new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Issue in reading the file", e);
+        }
+        return resource;
+
+    }
+
+
+    public boolean deleteSong(Long songId) {
+        Song song = songRepository.findById(songId).orElseThrow(() -> new RecordNotFoundException(""));
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(song.getSongUrl());
+        song.setSongUrl(null);
+        songRepository.save(song);
+        try {
+            return Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new RuntimeException("");
+        }
+
+
     }
 
 

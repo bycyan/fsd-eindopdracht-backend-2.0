@@ -10,5 +10,5 @@ public class SongInputDto {
     @NotBlank(message = "Firstname field shouldn't be empty.")
     public String songName;
 
-//    public String songUrl;
+    public String songUrl;
 }
