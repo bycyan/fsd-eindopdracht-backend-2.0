@@ -28,6 +28,8 @@ public class FileController {
     }
 
     //ENDPOINTS
+
+    //POST
     @CrossOrigin
     @PostMapping("/upload/{userId}")
     public ResponseEntity<Object> imageUpload(@PathVariable Long userId, @RequestParam("file") MultipartFile file) throws IOException {
@@ -104,7 +106,6 @@ public class FileController {
 
         if (fileService.deleteSong(songId)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
         }
         if (fileService.deleteSong(songId)) {
             return ResponseEntity.ok("");

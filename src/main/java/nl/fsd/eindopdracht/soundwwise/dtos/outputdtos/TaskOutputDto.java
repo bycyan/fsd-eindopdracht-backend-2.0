@@ -6,4 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TaskOutputDto {
+
+    public Long taskId;
+    public String taskName;
+    public Boolean taskComplete;
 }

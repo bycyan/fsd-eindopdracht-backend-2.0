@@ -69,11 +69,13 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
 
-                //ROLE_CONTRIBUTOR
+                //ROLE_CONTRIBUTOR //todo: ROLE toevoegen en toewijzen
                 .requestMatchers("/song/add/{projectId}").authenticated()//addSong
                 .requestMatchers("/uploadSong/{songId}").authenticated()//addSongFile
                 .requestMatchers("/downloadSong/{songId}").authenticated()//downloadSongFile
                 .requestMatchers("/deleteSong/{songId}").authenticated()//deleteSongFile
+                .requestMatchers("task/add/{projectId}").authenticated()//addTask
+
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
