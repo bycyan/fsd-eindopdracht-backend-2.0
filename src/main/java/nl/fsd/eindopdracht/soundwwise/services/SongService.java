@@ -46,45 +46,8 @@ public class SongService {
         song.setProject(project);
 
         songRepository.save(song);
-
-
-//        String storedFileName = fileService.storeSong(file, song.getSongId());
-//        song.setSongUrl(storedFileName);
         return transferSongToSongOutputDto(song);
     }
-
-    //Endpoint: song/add/{projectId}
-//    public SongOutputDto addSong(Long projectId, SongInputDto songInputDto, MultipartFile file) {
-//        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException(""));
-//
-//        Song song = new Song();
-//        song = transferSongInputDtoToSong(songInputDto, song);
-//        song.setProject(project);
-//
-//
-////        try {
-////            if (song.getSongUrl()!= null) {
-////                Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(song.getSongUrl());
-////                Files.deleteIfExists(path);
-////            }
-////
-////            String fileName = StringUtils.cleanPath(file.getOriginalFilename() + String.valueOf(Date.from(Instant.now()).getTime()));
-////            Path filePath = Paths.get(fileStorageLocation).toAbsolutePath().resolve(fileName);
-////
-////            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-////
-////            song.setSongUrl(fileName);
-////            songRepository.save(song);
-////
-////
-////        } catch (IOException e) {
-////            throw new RuntimeException("Issue in storing the file", e);
-////        }
-//
-//        songRepository.save(song);
-//        return transferSongToSongOutputDto(song);
-//    }
-
 
     //////////////////////////////////////////////////////
     //TRANSFER METHODS

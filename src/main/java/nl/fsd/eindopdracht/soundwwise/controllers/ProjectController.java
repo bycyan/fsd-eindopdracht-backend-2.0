@@ -42,6 +42,7 @@ public class ProjectController {
         return ResponseEntity.created(uri).body(projectOutputDto);
     }
 
+    //GET
 
 
     //PUT
