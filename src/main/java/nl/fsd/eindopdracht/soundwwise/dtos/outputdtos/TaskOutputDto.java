@@ -8,7 +8,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class TaskOutputDto {
-
     public Long taskId;
     public String taskName;
     public Date taskDue;

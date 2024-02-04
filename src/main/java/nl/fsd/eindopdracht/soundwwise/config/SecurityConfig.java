@@ -75,8 +75,10 @@ public class SecurityConfig {
                 .requestMatchers("/downloadSong/{songId}").authenticated()//downloadSongFile
                 .requestMatchers("/deleteSong/{songId}").authenticated()//deleteSongFile
                 .requestMatchers("/task/add/{projectId}/{userId}").authenticated()//addTask
+                .requestMatchers("/message/post/{projectId}/{userId}").authenticated()//addMessage
 
                 .requestMatchers("/task/{taskId}").authenticated()//get, put, delete task
+                .requestMatchers("/message/{messageId}").authenticated()//get, put, delete task
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden

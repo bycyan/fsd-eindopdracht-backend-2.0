@@ -1,11 +1,8 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.TaskInputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.TaskOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.TaskService;
 import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
 import org.apache.coyote.BadRequestException;
@@ -29,6 +26,10 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
+
+    //////////////////////////////////////////////////////
+    //ENDPOINTS
+    //////////////////////////////////////////////////////
 
     //POST
     @PostMapping("/add/{projectId}/{userId}")

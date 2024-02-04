@@ -1,12 +1,13 @@
 package nl.fsd.eindopdracht.soundwwise.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,13 +17,16 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Message {
     @Id
-    private Long id;
+    @GeneratedValue
+    private Long messageId;
+    private String messageText;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User messageAuthor;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "project_id")
+    private Project project;
 }
