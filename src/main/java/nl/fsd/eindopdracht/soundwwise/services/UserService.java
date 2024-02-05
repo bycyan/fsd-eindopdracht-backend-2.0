@@ -1,5 +1,6 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.PasswordInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
@@ -10,8 +11,14 @@ import nl.fsd.eindopdracht.soundwwise.util.RandomStringGenerator;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 
 @Service
 public class UserService {
@@ -55,6 +62,21 @@ public class UserService {
         userInputDto.userPassword = null;
         userRepository.save(UserServiceTransferMethod.transferUserInputDtoToUser(updatedUser, userInputDto, passwordEncoder));
         return UserServiceTransferMethod.transferUserToUserOutputDto(updatedUser);
+    }
+
+    public String updateUserPassword(String userEmail, PasswordInputDto passwordInputDto) {
+        User user = userRepository.findByEmailIgnoreCase(userEmail);
+
+        if (passwordInputDto.newPassword == null) {
+            throw new IllegalArgumentException("New password cannot be null");
+        }
+
+        // Additional validation or authorization logic if needed
+
+        user.setPassword(passwordEncoder.encode(passwordInputDto.newPassword));
+        userRepository.save(user);
+
+        return "The password has been updated successfully.";
     }
 
     //Endpoint: /user/delete/{userId}

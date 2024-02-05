@@ -77,7 +77,7 @@ public class FileController {
 
     @CrossOrigin
     @PostMapping("/song/{songId}")
-    public ResponseEntity<Object> songUpload(@PathVariable Long songId, @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Object> postSong(@PathVariable Long songId, @RequestParam("file") MultipartFile file) throws IOException {
         try {
             //goed
             if (songId == null) {
@@ -96,7 +96,7 @@ public class FileController {
     }
 
     @GetMapping("/song/{songId}")
-    public ResponseEntity<Object> downloadSong(@PathVariable Long songId, HttpServletRequest request) {
+    public ResponseEntity<Object> getSong(@PathVariable Long songId, HttpServletRequest request) {
         Resource resource = fileService.getSong(songId);
         MediaType contentType = MediaType.parseMediaType("audio/mp3");
         return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);

@@ -32,7 +32,7 @@ public class SongController {
     }
 
     //POST
-    @PostMapping("/add/{projectId}")
+    @PostMapping("/{projectId}")
     public ResponseEntity<Object> addSong(
             @PathVariable Long projectId,
             @Valid @RequestBody SongInputDto songInputDto,

@@ -59,12 +59,13 @@ public class SecurityConfig {
                 //AUTHENTICATED
                 .requestMatchers("/authenticated").authenticated() //AUTHENTICATED RESPONSE BODY
                 .requestMatchers("/user/{userId}").authenticated() //PUT, DELETE USER
+                .requestMatchers("/user/password_reset/{userEmail}").authenticated() //PUT USER PASSWORD
                 .requestMatchers("/file/user_image/{userId}").authenticated() //POST, DELETE USER IMAGE
                 .requestMatchers("/project/{userId}").authenticated() //POST PROJECT
 
                 //ROLE_CONTRIBUTOR || ROLE_OWNER
                 .requestMatchers("/project/{projectId}").hasAnyRole("OWNER", "CONTRIBUTOR") //GET PROJECT
-                .requestMatchers("/song/add/{projectId}").hasAnyRole("OWNER", "CONTRIBUTOR") //POST SONG
+                .requestMatchers("/song/{projectId}").hasAnyRole("OWNER", "CONTRIBUTOR") //POST SONG
                 .requestMatchers("/file/song/{songId}").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET DELETE SONG FILE
                 .requestMatchers("/task/**").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET PUT DELETE TASK
                 .requestMatchers("/message/**").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET PUT DELETE MESSAGE

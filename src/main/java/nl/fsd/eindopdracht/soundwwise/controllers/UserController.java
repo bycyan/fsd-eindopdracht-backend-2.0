@@ -1,9 +1,11 @@
 package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.PasswordInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.UserService;
+import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,15 @@ public class UserController {
     public ResponseEntity<Object> updateUser(@PathVariable Long userId, @Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
         UserOutputDto userOutputDto = userService.updateUser(userId, userInputDto);
         return new ResponseEntity<>(userOutputDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/password_reset/{userEmail}")
+    public ResponseEntity<String> updatePassword(@PathVariable("userEmail") String userEmail,
+                                                 @Valid @RequestBody PasswordInputDto passwordInputDto, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            return ResponseEntity.badRequest().body(FieldErrorHandling.getErrorToStringHandling(bindingResult));
+        }
+        return new ResponseEntity<>(userService.updateUserPassword(userEmail, passwordInputDto), HttpStatus.ACCEPTED);
     }
 
     //DELETE
