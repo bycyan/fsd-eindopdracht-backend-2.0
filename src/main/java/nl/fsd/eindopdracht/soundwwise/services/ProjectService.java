@@ -47,6 +47,10 @@ public class ProjectService {
 
         project.setContributors(contributors);
 
+        Authority newAuthority = new Authority(contributor.getId(), project.getProjectId(), "ROLE_CONTRIBUTOR");
+        contributor.addAuthority(newAuthority);
+        userRepository.save(contributor);
+
         projectRepository.save(transferProjectInputDtoToProject(projectInputDto, project));
         return transferProjectToProjectOutputDto(project);
     }
