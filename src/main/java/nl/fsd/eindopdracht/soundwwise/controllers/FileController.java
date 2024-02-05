@@ -17,6 +17,7 @@ import java.util.Objects;
 
 @CrossOrigin
 @RestController
+@RequestMapping("/file")
 public class FileController {
 
     //INJECT
@@ -117,7 +118,7 @@ public class FileController {
 
     //POST
     @CrossOrigin
-    @PostMapping("/uploadproject/{projectId}")
+    @PostMapping("/project_image/{projectId}")
     public ResponseEntity<Object> storeProjectImage(@PathVariable Long projectId, @RequestParam("file") MultipartFile file) throws IOException {
         try {
             if (projectId == null) {

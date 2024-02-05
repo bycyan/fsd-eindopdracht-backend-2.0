@@ -38,6 +38,19 @@ public class ProjectService {
         return transferProjectToProjectOutputDto(project);
     }
 
+    public ProjectOutputDto addContributorToProject(Long projectId, Long userId,ProjectInputDto projectInputDto){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException(""));
+        User contributor = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
+
+        Set<User> contributors = project.getContributors();
+        contributors.add(contributor);
+
+        project.setContributors(contributors);
+
+        projectRepository.save(transferProjectInputDtoToProject(projectInputDto, project));
+        return transferProjectToProjectOutputDto(project);
+    }
+
    //Endpoint: /project/new/{userId}
    public ProjectOutputDto createProject(Long userId, ProjectInputDto projectInputDto) {
        User projectOwner = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
@@ -87,23 +100,24 @@ public class ProjectService {
 
 
 
+
+
    //////////////////////////////////////////////////////
    //TRANSFER METHODS
    //////////////////////////////////////////////////////
 
     public Project transferProjectInputDtoToProject(ProjectInputDto projectInputDto, Project project) {
         project.setProjectName(projectInputDto.projectName);
-        project.setProjectCoverImage(projectInputDto.projectCoverImage);
         return project;
     }
 
     public ProjectOutputDto transferProjectToProjectOutputDto(Project project) {
         ProjectOutputDto projectOutputDto = new ProjectOutputDto();
-        projectOutputDto.id = project.getProjectId();
+        projectOutputDto.projectId = project.getProjectId();
         projectOutputDto.projectName = project.getProjectName();
         projectOutputDto.projectCoverImage = project.getProjectCoverImage();
         projectOutputDto.projectOwnerId = project.getProjectOwner().getId();
-        projectOutputDto.contributor = project.getContributors();
+        projectOutputDto.contributors = project.getContributors();
         return projectOutputDto;
     }
 }

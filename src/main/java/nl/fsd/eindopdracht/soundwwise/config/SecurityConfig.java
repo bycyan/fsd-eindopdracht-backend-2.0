@@ -68,13 +68,16 @@ public class SecurityConfig {
                 .requestMatchers("/deleteprofilepic/{userId}").authenticated()//uploadUserImage
 
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
-                .requestMatchers("/project/{projectId}").authenticated()//createProject
 
                 //ROLE_CONTRIBUTOR //todo: ROLE toevoegen en toewijzen
+                .requestMatchers("/project/{projectId}").authenticated()//getProject
+
                 .requestMatchers("/song/add/{projectId}").authenticated()//addSong
-                .requestMatchers("/uploadSong/{songId}").authenticated()//addSongFile
-                .requestMatchers("/downloadSong/{songId}").authenticated()//downloadSongFile
-                .requestMatchers("/deleteSong/{songId}").authenticated()//deleteSongFile
+
+                .requestMatchers("/file/uploadSong/{songId}").authenticated()//addSongFile
+                .requestMatchers("/file/downloadSong/{songId}").authenticated()//downloadSongFile
+                .requestMatchers("/file/deleteSong/{songId}").authenticated()//deleteSongFile
+
                 .requestMatchers("/task/add/{projectId}/{userId}").authenticated()//addTask
                 .requestMatchers("/message/post/{projectId}/{userId}").authenticated()//addMessage
 
@@ -83,9 +86,10 @@ public class SecurityConfig {
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
-                .requestMatchers("/uploadproject/{projectId}").hasRole("USER")
+                .requestMatchers("/file/project_image/{projectId}").hasRole("USER")
                 .requestMatchers("/project/delete/{projectId}").hasRole("USER")//delete project
                 .requestMatchers("/project/update/{projectId}").hasRole("USER")//update project
+                .requestMatchers("/project/update/{projectId}/{userId}").hasRole("USER")//update project
                 //add contributors
 
                 .anyRequest().denyAll()

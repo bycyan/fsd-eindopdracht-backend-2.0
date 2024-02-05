@@ -28,18 +28,18 @@ public class UserController {
 
     //ENDPOINTS
 
-    //GET
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserOutputDto> getCustomerById(@PathVariable Long userId) {
-        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
-    }
-
     //POST
     @PostMapping("/register")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult){
         UserOutputDto userOutputDto = userService.createUser(userInputDto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + userOutputDto.userId).toUriString());
         return ResponseEntity.created(uri).body(userOutputDto);
+    }
+
+    //GET
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserOutputDto> getCustomerById(@PathVariable Long userId) {
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
     //PUT

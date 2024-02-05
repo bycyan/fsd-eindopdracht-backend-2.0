@@ -9,10 +9,10 @@ import java.util.Set;
 @Getter
 @Setter
 public class ProjectOutputDto {
-    public Long id;
+    public Long projectId;
     public String projectName;
     public String projectCoverImage;
     public Long projectOwnerId;
-    public Set<User> contributor;
+    public Set<User> contributors;
 
 }

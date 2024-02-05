@@ -36,20 +36,16 @@ public class SongController {
     public ResponseEntity<Object> addSong(
             @PathVariable Long projectId,
             @Valid @RequestBody SongInputDto songInputDto,
-//            @RequestParam("file") MultipartFile file,
             BindingResult bindingResult) {
         try {
             if (bindingResult.hasFieldErrors()) {
                 return ResponseEntity.badRequest().body(FieldErrorHandling.getErrorToStringHandling(bindingResult));
             }
 
-//            SongOutputDto songOutputDto = songService.addSong(projectId, songInputDto, file);
             SongOutputDto songOutputDto = songService.addSong(projectId, songInputDto);
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + songOutputDto.songId).toUriString());
             return ResponseEntity.created(uri).body(songOutputDto);
         } catch (Exception e) {
-            // Handle the exception here
-            // You might want to log the exception for debugging purposes
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during song creation.");
         }
     }

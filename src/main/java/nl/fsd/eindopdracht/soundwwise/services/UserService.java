@@ -67,18 +67,4 @@ public class UserService {
         }
     }
 
-//    public void addAuthorityForOwner(Long userId) {
-//        User updatedUser = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
-//        updatedUser.addAuthority(new Authority(updatedUser.getId(), "ROLE_OWNER"));
-//    }
-
-//    public void addRoleOwner() {
-//        Authority authority = new Authority("ROLE_OWNER"); // Assuming Authority constructor accepts a role name
-//        this.authorities.add(authority);
-//        authority.setUser(this); // Set the user for bidirectional relationship
-//    }
-
-
-    //todo: add authority for contributor
-
 }

@@ -36,7 +36,7 @@ public class ProjectController {
             return ResponseEntity.badRequest().body(FieldErrorHandling.getErrorToStringHandling(bindingResult));
         }
         ProjectOutputDto projectOutputDto = projectService.createProject(userId, projectInputDto);
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.id).toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + projectOutputDto.projectId).toUriString());
         return ResponseEntity.created(uri).body(projectOutputDto);
     }
 
@@ -51,6 +51,12 @@ public class ProjectController {
     @PutMapping("/update/{projectId}")
     public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         ProjectOutputDto projectOutputDto = projectService.updateProject(projectId, projectInputDto);
+        return new ResponseEntity<>(projectOutputDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{projectId}/{userId}")
+    public ResponseEntity<Object> addContributor(@PathVariable Long projectId, @PathVariable Long userId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
+        ProjectOutputDto projectOutputDto = projectService.addContributorToProject(projectId, userId, projectInputDto);
         return new ResponseEntity<>(projectOutputDto, HttpStatus.OK);
     }
 
