@@ -50,47 +50,29 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeHttpRequests()
 
-                //AUTH
-                .requestMatchers(HttpMethod.POST, "/user/register").permitAll() //createUser
-
-                .requestMatchers("/login").permitAll()
-                .requestMatchers("/authenticated").authenticated()
-
                 //OPEN ENDPOINTS
-                .requestMatchers("/download/{userId}").permitAll() //getUserImageById
+                .requestMatchers("/user/register").permitAll() //POST USER
+                .requestMatchers("/login").permitAll() //LOGIN USER
+                .requestMatchers(HttpMethod.GET, "/user/{userId}").permitAll() //GET USER
+                .requestMatchers(HttpMethod.GET, "/file/user_image/{userId}").permitAll() //GET USER IMAGE
 
                 //AUTHENTICATED
-                .requestMatchers("/user/{userId}").authenticated() //getUserById
-                .requestMatchers("/user/update/{userId}").authenticated() //updateUser
-                .requestMatchers("/user/delete/{userId}").authenticated() //deleteUser
+                .requestMatchers("/authenticated").authenticated() //AUTHENTICATED RESPONSE BODY
+                .requestMatchers("/user/{userId}").authenticated() //PUT, DELETE USER
+                .requestMatchers("/file/user_image/{userId}").authenticated() //POST, DELETE USER IMAGE
+                .requestMatchers("/project/{userId}").authenticated() //POST PROJECT
 
-                .requestMatchers("/upload/{userId}").authenticated()//uploadUserImage
-                .requestMatchers("/deleteprofilepic/{userId}").authenticated()//uploadUserImage
-
-                .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
-
-                //ROLE_CONTRIBUTOR //todo: ROLE toevoegen en toewijzen
-                .requestMatchers("/project/{projectId}").authenticated()//getProject
-
-                .requestMatchers("/song/add/{projectId}").authenticated()//addSong
-
-                .requestMatchers("/file/uploadSong/{songId}").authenticated()//addSongFile
-                .requestMatchers("/file/downloadSong/{songId}").authenticated()//downloadSongFile
-                .requestMatchers("/file/deleteSong/{songId}").authenticated()//deleteSongFile
-
-                .requestMatchers("/task/add/{projectId}/{userId}").authenticated()//addTask
-                .requestMatchers("/message/post/{projectId}/{userId}").authenticated()//addMessage
-
-                .requestMatchers("/task/{taskId}").authenticated()//get, put, delete task
-                .requestMatchers("/message/{messageId}").authenticated()//get, put, delete task
+                //ROLE_CONTRIBUTOR || ROLE_OWNER
+                .requestMatchers("/project/{projectId}").hasAnyRole("OWNER", "CONTRIBUTOR") //GET PROJECT
+                .requestMatchers("/song/add/{projectId}").hasAnyRole("OWNER", "CONTRIBUTOR") //POST SONG
+                .requestMatchers("/file/song/{songId}").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET DELETE SONG FILE
+                .requestMatchers("/task/**").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET PUT DELETE TASK
+                .requestMatchers("/message/**").hasAnyRole("OWNER", "CONTRIBUTOR") //POST GET PUT DELETE MESSAGE
 
                 //ROLE_OWNER
-                //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
                 .requestMatchers("/file/project_image/{projectId}").hasRole("OWNER")
-                .requestMatchers("/project/delete/{projectId}").hasRole("OWNER")//delete project
-                .requestMatchers("/project/update/{projectId}").hasRole("OWNER")//update project
-                .requestMatchers("/project/update/{projectId}/{userId}").hasRole("OWNER")//update project
-                //add contributors
+                .requestMatchers("/project/{projectId}").hasRole("OWNER") //PUT, DELETE PROJECT
+                .requestMatchers("/project/contributor/{projectId}/{userId}").hasRole("OWNER") //PUT CONTRIBUTOR
 
                 .anyRequest().denyAll()
                 .and()

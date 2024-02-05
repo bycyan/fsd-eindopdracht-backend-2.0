@@ -43,16 +43,15 @@ public class UserController {
     }
 
     //PUT
-    @PutMapping("/update/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<Object> updateUser(@PathVariable Long userId, @Valid @RequestBody UserInputDto userInputDto, BindingResult bindingResult) {
         UserOutputDto userOutputDto = userService.updateUser(userId, userInputDto);
         return new ResponseEntity<>(userOutputDto, HttpStatus.OK);
     }
 
     //DELETE
-    @DeleteMapping("delete/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Long userId) throws BadRequestException {
-        //todo: kan de user niet verwijderen wanneer er een project gekoppeld is
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

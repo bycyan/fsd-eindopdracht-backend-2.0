@@ -32,7 +32,7 @@ public class FileController {
 
     //POST
     @CrossOrigin
-    @PostMapping("/upload/{userId}")
+    @PostMapping("/user_image/{userId}")
     public ResponseEntity<Object> imageUpload(@PathVariable Long userId, @RequestParam("file") MultipartFile file) throws IOException {
         try {
             //goed
@@ -52,7 +52,7 @@ public class FileController {
     }
 
     //GET
-    @GetMapping("/download/{userId}")
+    @GetMapping("/user_image/{userId}")
     public ResponseEntity<Object> downloadProfilePic(@PathVariable Long userId, HttpServletRequest request) {
         Resource resource = fileService.getFile(userId);
         MediaType contentType = MediaType.IMAGE_JPEG;
@@ -60,7 +60,7 @@ public class FileController {
     }
 
     //DELETE
-    @DeleteMapping("/deleteprofilepic/{userId}")
+    @DeleteMapping("/user_image/{userId}")
     public ResponseEntity<Object> deleteProfilePic(@PathVariable Long userId) {
 
         if (fileService.deleteProfilePic(userId)) {
@@ -76,7 +76,7 @@ public class FileController {
     }
 
     @CrossOrigin
-    @PostMapping("/uploadSong/{songId}")
+    @PostMapping("/song/{songId}")
     public ResponseEntity<Object> songUpload(@PathVariable Long songId, @RequestParam("file") MultipartFile file) throws IOException {
         try {
             //goed
@@ -95,14 +95,14 @@ public class FileController {
         }
     }
 
-    @GetMapping("/downloadSong/{songId}")
+    @GetMapping("/song/{songId}")
     public ResponseEntity<Object> downloadSong(@PathVariable Long songId, HttpServletRequest request) {
         Resource resource = fileService.getSong(songId);
         MediaType contentType = MediaType.parseMediaType("audio/mp3");
         return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
     }
 
-    @DeleteMapping("/deleteSong/{songId}")
+    @DeleteMapping("/song/{songId}")
     public ResponseEntity<Object> deleteSong(@PathVariable Long songId) {
 
         if (fileService.deleteSong(songId)) {

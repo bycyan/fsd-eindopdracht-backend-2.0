@@ -30,7 +30,7 @@ public class ProjectController {
     //ENDPOINTS
 
     //POST
-    @PostMapping("/new/{userId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<Object> createProject(@PathVariable Long userId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()){
             return ResponseEntity.badRequest().body(FieldErrorHandling.getErrorToStringHandling(bindingResult));
@@ -48,20 +48,20 @@ public class ProjectController {
 
 
     //PUT
-    @PutMapping("/update/{projectId}")
+    @PutMapping("/{projectId}")
     public ResponseEntity<Object> updateProject(@PathVariable Long projectId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         ProjectOutputDto projectOutputDto = projectService.updateProject(projectId, projectInputDto);
         return new ResponseEntity<>(projectOutputDto, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{projectId}/{userId}")
+    @PutMapping("/contributor/{projectId}/{userId}")
     public ResponseEntity<Object> addContributor(@PathVariable Long projectId, @PathVariable Long userId, @Valid @RequestBody ProjectInputDto projectInputDto, BindingResult bindingResult) {
         ProjectOutputDto projectOutputDto = projectService.addContributorToProject(projectId, userId, projectInputDto);
         return new ResponseEntity<>(projectOutputDto, HttpStatus.OK);
     }
 
     //DELETE
-    @DeleteMapping("/delete/{projectId}")
+    @DeleteMapping("/{projectId}")
     public ResponseEntity<String> deleteProject(@PathVariable Long projectId) throws BadRequestException {
     projectService.deleteProject(projectId);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
