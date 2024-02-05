@@ -2,9 +2,7 @@ package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.ProjectService;
 import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
 import org.apache.coyote.BadRequestException;
