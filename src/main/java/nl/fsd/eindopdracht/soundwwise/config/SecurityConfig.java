@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .requestMatchers("/deleteprofilepic/{userId}").authenticated()//uploadUserImage
 
                 .requestMatchers(HttpMethod.POST, "/project/new/{userId}").authenticated()//createProject
+                .requestMatchers("/project/{projectId}").authenticated()//createProject
 
                 //ROLE_CONTRIBUTOR //todo: ROLE toevoegen en toewijzen
                 .requestMatchers("/song/add/{projectId}").authenticated()//addSong
@@ -82,6 +83,7 @@ public class SecurityConfig {
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
+                .requestMatchers("/uploadproject/{projectId}").hasRole("USER")
                 .requestMatchers("/project/delete/{projectId}").hasRole("USER")//delete project
                 .requestMatchers("/project/update/{projectId}").hasRole("USER")//update project
                 //add contributors

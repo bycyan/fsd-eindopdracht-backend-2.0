@@ -43,6 +43,10 @@ public class ProjectController {
     }
 
     //GET
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectOutputDto> getCustomerById(@PathVariable Long projectId) {
+        return new ResponseEntity<>(projectService.getProject(projectId), HttpStatus.OK);
+    }
 
 
     //PUT

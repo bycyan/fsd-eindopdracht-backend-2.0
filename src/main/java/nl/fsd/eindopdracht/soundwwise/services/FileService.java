@@ -1,8 +1,10 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
+import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.Song;
 import nl.fsd.eindopdracht.soundwwise.models.User;
+import nl.fsd.eindopdracht.soundwwise.repositories.ProjectRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.SongRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,14 +29,15 @@ public class FileService {
     private final Path fileStoragePath;
     private final String fileStorageLocation;
     private final UserRepository userRepository;
-
     private final SongRepository songRepository;
+    private final ProjectRepository projectRepository;
 
-    public FileService(@Value("${file.storage.location}") String fileStorageLocation, UserRepository userRepository, SongRepository songRepository) {
+    public FileService(@Value("${file.storage.location}") String fileStorageLocation, UserRepository userRepository, SongRepository songRepository, ProjectRepository projectRepository) {
         this.fileStoragePath = Paths.get(fileStorageLocation).toAbsolutePath().normalize();
         this.fileStorageLocation = fileStorageLocation;
         this.userRepository = userRepository;
         this.songRepository = songRepository;
+        this.projectRepository = projectRepository;
 
         try {
             Files.createDirectories(fileStoragePath);
@@ -157,6 +160,33 @@ public class FileService {
         }
 
 
+    }
+
+    ////////////////////////////////
+    //PROFILE IMAGE
+    ////////////////////////////////
+
+    public String storeProjectImage(MultipartFile file, String url, Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException(""));
+
+        try {
+            if (project.getProjectCoverImage() != null) {
+                Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(project.getProjectCoverImage());
+                Files.deleteIfExists(path);
+            }
+
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename() + String.valueOf(Date.from(Instant.now()).getTime()));
+            Path filePath = Paths.get(fileStorageLocation).toAbsolutePath().resolve(fileName);
+
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            project.setProjectCoverImage(fileName);
+            projectRepository.save(project);
+
+            return fileName;
+        } catch (IOException e) {
+            throw new RuntimeException("Issue in storing the file", e);
+        }
     }
 
 

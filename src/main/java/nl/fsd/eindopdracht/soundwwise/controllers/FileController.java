@@ -114,4 +114,24 @@ public class FileController {
         }
 
     }
+
+    //POST
+    @CrossOrigin
+    @PostMapping("/uploadproject/{projectId}")
+    public ResponseEntity<Object> storeProjectImage(@PathVariable Long projectId, @RequestParam("file") MultipartFile file) throws IOException {
+        try {
+            if (projectId == null) {
+                return ResponseEntity.badRequest().body("");
+            }
+
+            String urlOfFile = ServletUriComponentsBuilder.fromCurrentContextPath().path("/projectImage/").path(Objects.requireNonNull(projectId.toString())).toUriString();
+
+            String fileName = fileService.storeProjectImage(file, urlOfFile, projectId);
+            return ResponseEntity.ok("File uploaded successfully. URL: " + urlOfFile + ", FileName: " + fileName);
+        } catch (Exception e) {
+            // Log the exception details
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+        }
+    }
 }

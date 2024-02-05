@@ -33,6 +33,11 @@ public class ProjectService {
 
    //SERVICES
 
+    public ProjectOutputDto getProject(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException("user notfound"));
+        return transferProjectToProjectOutputDto(project);
+    }
+
    //Endpoint: /project/new/{userId}
    public ProjectOutputDto createProject(Long userId, ProjectInputDto projectInputDto) {
        User projectOwner = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException(""));
@@ -101,6 +106,4 @@ public class ProjectService {
         projectOutputDto.contributor = project.getContributors();
         return projectOutputDto;
     }
-
-
 }
