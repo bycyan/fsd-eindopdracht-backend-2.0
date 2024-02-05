@@ -43,8 +43,8 @@ public class UserService {
         UserServiceTransferMethod.transferUserInputDtoToUser(user, userInputDto, passwordEncoder);
         user.setApikey(randomString);
         userRepository.save(user);
-        user.addAuthority(new Authority(user.getId(), "ROLE_USER"));
-        userRepository.save(user);
+//        user.addAuthority(new Authority(user.getId() "ROLE_USER"));
+//        userRepository.save(user);
         return UserServiceTransferMethod.transferUserToUserOutputDto(user);
     }
 

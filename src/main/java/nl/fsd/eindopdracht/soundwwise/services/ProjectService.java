@@ -1,14 +1,13 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.ProjectInputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.UserInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.ProjectOutputDto;
-import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.UserOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.BadRequestException;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Authority;
 import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.User;
+import nl.fsd.eindopdracht.soundwwise.repositories.AuthorityRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.ProjectRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -22,16 +21,17 @@ public class ProjectService {
     //INJECT
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final AuthorityRepository authorityRepository;
 
     //CONSTRUCT
-    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, UserService userService) {
+    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
-        this.userService = userService;
+        this.authorityRepository = authorityRepository;
     }
 
    //SERVICES
+
 
     public ProjectOutputDto getProject(Long projectId) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException("user notfound"));
@@ -67,8 +67,9 @@ public class ProjectService {
 
        projectRepository.save(project);
 
-//       Authority newAuthority = new Authority(projectOwner.getId(), "ROLE_OWNER");
-//       projectOwner.addAuthority(newAuthority);
+       Authority newAuthority = new Authority(projectOwner.getId(), project.getProjectId(), "ROLE_OWNER");
+       projectOwner.addAuthority(newAuthority);
+       userRepository.save(projectOwner);
        //Assign ROLE_OWNER
 //       projectOwner.addAuthority(new Authority(projectOwner.getId(), "ROLE_OWNER"));
 //       userService.addAuthorityForOwner(projectOwner.getId());
@@ -92,6 +93,7 @@ public class ProjectService {
         try{
             Project project = projectRepository.findById(projectId)
                     .orElseThrow(() -> new RecordNotFoundException("Project not found with id: " + projectId));
+//            authorityRepository.deleteByProjectId(projectId);
             projectRepository.delete(project);
         } catch (Exception e){
             throw new BadRequestException("");

@@ -86,10 +86,10 @@ public class SecurityConfig {
 
                 //ROLE_OWNER
                 //todo: verander naar OWNER rollen die pas bij aanmaken van project actief worden
-                .requestMatchers("/file/project_image/{projectId}").hasRole("USER")
-                .requestMatchers("/project/delete/{projectId}").hasRole("USER")//delete project
-                .requestMatchers("/project/update/{projectId}").hasRole("USER")//update project
-                .requestMatchers("/project/update/{projectId}/{userId}").hasRole("USER")//update project
+                .requestMatchers("/file/project_image/{projectId}").hasRole("OWNER")
+                .requestMatchers("/project/delete/{projectId}").hasRole("OWNER")//delete project
+                .requestMatchers("/project/update/{projectId}").hasRole("OWNER")//update project
+                .requestMatchers("/project/update/{projectId}/{userId}").hasRole("OWNER")//update project
                 //add contributors
 
                 .anyRequest().denyAll()
