@@ -53,14 +53,12 @@ public class SecurityConfig {
                 //OPEN ENDPOINTS
                 .requestMatchers("/user/register").permitAll() //POST USER
                 .requestMatchers("/login").permitAll() //LOGIN USER
-                .requestMatchers(HttpMethod.GET, "/user/{userId}").permitAll() //GET USER
-                .requestMatchers(HttpMethod.GET, "/file/user_image/{userId}").permitAll() //GET USER IMAGE
 
                 //AUTHENTICATED
                 .requestMatchers("/authenticated").authenticated() //AUTHENTICATED RESPONSE BODY
                 .requestMatchers("/user/{userId}").authenticated() //PUT, DELETE USER
                 .requestMatchers("/user/password_reset/{userEmail}").authenticated() //PUT USER PASSWORD
-                .requestMatchers("/file/user_image/{userId}").authenticated() //POST, DELETE USER IMAGE
+                .requestMatchers("/file/user_image/{userId}").authenticated() //POST, GET, DELETE USER IMAGE
                 .requestMatchers("/project/{userId}").authenticated() //POST PROJECT
 
                 //ROLE_CONTRIBUTOR || ROLE_OWNER
