@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,6 +25,9 @@ public class Project {
     private Long projectId;
     private String projectName;
     private String projectCoverImage;
+    private String projectArtist;
+    private String projectRelease;
+
 
     //RELATIONS
     @ManyToOne
@@ -36,5 +41,4 @@ public class Project {
             inverseJoinColumns = @JoinColumn(name = "contributor_id")
     )
     private Set<User> contributors;
-
 }

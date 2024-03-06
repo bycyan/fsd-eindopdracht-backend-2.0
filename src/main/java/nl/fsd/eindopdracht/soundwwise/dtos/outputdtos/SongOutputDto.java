@@ -12,4 +12,6 @@ public class SongOutputDto {
     public String songName;
     public String songUrl;
 
+    public Long projectId;
+
 }

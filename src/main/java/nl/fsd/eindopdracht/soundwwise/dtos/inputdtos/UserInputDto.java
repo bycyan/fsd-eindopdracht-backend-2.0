@@ -15,6 +15,7 @@ public class UserInputDto {
     public String userFirstName;
     @NotBlank(message = "Lastname field shouldn't be empty.")
     public String userLastName;
+    public String jobDescription;
     @NotBlank (message = "Email field shouldn't be empty.")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
             flags = Pattern.Flag.CASE_INSENSITIVE, message = "This email doesn't meet e-mail requirements (@ symbol and .com/nl etc)")

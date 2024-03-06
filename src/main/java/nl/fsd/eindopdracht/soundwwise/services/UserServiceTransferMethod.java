@@ -15,6 +15,7 @@ public class UserServiceTransferMethod {
         userOutputDto.userId = user.getId();
         userOutputDto.userFirstName = user.getFirstName();
         userOutputDto.userLastName = user.getLastName();
+        userOutputDto.jobDescription = user.getJobDescription();
         userOutputDto.userEmail = user.getEmail();
         userOutputDto.authorities = user.getAuthorities();
         userOutputDto.userProfileImage = user.getProfileImage();
@@ -27,6 +28,7 @@ public class UserServiceTransferMethod {
         }
         user.setFirstName(userInputDto.userFirstName);
         user.setLastName(userInputDto.userLastName);
+        user.setJobDescription(userInputDto.jobDescription);
         user.setEmail(userInputDto.userEmail);
         user.setProfileImage(userInputDto.userProfileImage);
 

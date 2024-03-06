@@ -10,6 +10,9 @@ import nl.fsd.eindopdracht.soundwwise.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -74,7 +77,22 @@ public class FileService {
         }
     }
 
-    public Resource getFile(Long userId) {
+    //OUD
+//    public Resource getFile(Long userId) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User with ID: " + userId + " doesn't exist."));
+//        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getProfileImage());
+//        Resource resource;
+//        try {
+//            resource = new UrlResource(path.toUri());
+//        } catch (MalformedURLException e) {
+//            throw new RuntimeException("Issue in reading the file", e);
+//        }
+//        return resource;
+//
+//    }
+
+    //NEW
+    public ResponseEntity<Resource> getFile(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RecordNotFoundException("User with ID: " + userId + " doesn't exist."));
         Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(user.getProfileImage());
         Resource resource;
@@ -83,8 +101,12 @@ public class FileService {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Issue in reading the file", e);
         }
-        return resource;
+        MediaType contentType = MediaType.IMAGE_JPEG;
 
+        return ResponseEntity.ok()
+                .contentType(contentType)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                .body(resource);
     }
 
     public boolean deleteProfilePic(Long userId) {
@@ -187,6 +209,23 @@ public class FileService {
         } catch (IOException e) {
             throw new RuntimeException("Issue in storing the file", e);
         }
+    }
+
+    public ResponseEntity<Resource> getProjectImage(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new RecordNotFoundException("User with ID: " + projectId + " doesn't exist."));
+        Path path = Paths.get(fileStorageLocation).toAbsolutePath().resolve(project.getProjectCoverImage());
+        Resource resource;
+        try {
+            resource = new UrlResource(path.toUri());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Issue in reading the file", e);
+        }
+        MediaType contentType = MediaType.IMAGE_JPEG;
+
+        return ResponseEntity.ok()
+                .contentType(contentType)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                .body(resource);
     }
 
 

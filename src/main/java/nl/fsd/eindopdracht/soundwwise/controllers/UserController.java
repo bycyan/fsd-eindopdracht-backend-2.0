@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -42,6 +43,12 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserOutputDto> getCustomerById(@PathVariable Long userId) {
         return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserOutputDto>> getAllUsers() {
+        List<UserOutputDto> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     //PUT

@@ -1,10 +1,13 @@
 package nl.fsd.eindopdracht.soundwwise.services;
 
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.SongInputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.TaskInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.SongOutputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.TaskOutputDto;
 import nl.fsd.eindopdracht.soundwwise.exceptions.RecordNotFoundException;
 import nl.fsd.eindopdracht.soundwwise.models.Project;
 import nl.fsd.eindopdracht.soundwwise.models.Song;
+import nl.fsd.eindopdracht.soundwwise.models.Task;
 import nl.fsd.eindopdracht.soundwwise.repositories.ProjectRepository;
 import nl.fsd.eindopdracht.soundwwise.repositories.SongRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SongService {
@@ -49,6 +55,20 @@ public class SongService {
         return transferSongToSongOutputDto(song);
     }
 
+    public List<SongOutputDto> getSongs(Long projectId) {
+        List<Song> songs = songRepository.findByProject_ProjectId(projectId);
+        return songs.stream()
+                .map(this::transferSongToSongOutputDto)
+                .collect(Collectors.toList());
+    }
+
+
+    public SongOutputDto updateSong(Long songId, SongInputDto songInputDto) {
+        Song song = songRepository.findById(songId).orElseThrow(() -> new RecordNotFoundException(""));
+        songRepository.save(transferSongInputDtoToSong(songInputDto, song));
+        return transferSongToSongOutputDto(song);
+    }
+
     //////////////////////////////////////////////////////
     //TRANSFER METHODS
     //////////////////////////////////////////////////////
@@ -64,6 +84,7 @@ public class SongService {
         songOutputDto.songId = song.getSongId();
         songOutputDto.songName = song.getSongName();
         songOutputDto.songUrl = song.getSongUrl();
+        songOutputDto.projectId = song.getProject().getProjectId();
         return songOutputDto;
     }
 

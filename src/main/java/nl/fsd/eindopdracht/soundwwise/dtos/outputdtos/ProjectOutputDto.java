@@ -12,6 +12,8 @@ public class ProjectOutputDto {
     public Long projectId;
     public String projectName;
     public String projectCoverImage;
+    public String projectArtist;
+    public String projectRelease;
     public Long projectOwnerId;
     public Set<User> contributors;
 

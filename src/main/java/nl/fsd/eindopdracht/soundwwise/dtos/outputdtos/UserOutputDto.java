@@ -15,6 +15,7 @@ public class UserOutputDto {
     public Long userId;
     public String userFirstName;
     public String userLastName;
+    public String jobDescription;
     public String userEmail;
     public String userProfileImage;
 

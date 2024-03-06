@@ -2,21 +2,19 @@ package nl.fsd.eindopdracht.soundwwise.controllers;
 
 import jakarta.validation.Valid;
 import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.SongInputDto;
+import nl.fsd.eindopdracht.soundwwise.dtos.inputdtos.TaskInputDto;
 import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.SongOutputDto;
-import nl.fsd.eindopdracht.soundwwise.services.FileService;
+import nl.fsd.eindopdracht.soundwwise.dtos.outputdtos.TaskOutputDto;
 import nl.fsd.eindopdracht.soundwwise.services.SongService;
 import nl.fsd.eindopdracht.soundwwise.util.FieldErrorHandling;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.Objects;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -48,5 +46,16 @@ public class SongController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during song creation.");
         }
+    }
+
+    @GetMapping("/{projectId}/songs")
+    public ResponseEntity<List<SongOutputDto>> getSongs(@PathVariable Long projectId) {
+        return ResponseEntity.ok(songService.getSongs(projectId));
+    }
+
+    @PutMapping("/{songId}")
+    public ResponseEntity<Object> updateSong(@PathVariable Long songId, @Valid @RequestBody SongInputDto songInputDto, BindingResult bindingResult) {
+        SongOutputDto songOutputDto = songService.updateSong(songId, songInputDto);
+        return new ResponseEntity<>(songOutputDto, HttpStatus.OK);
     }
 }

@@ -114,6 +114,8 @@ public class ProjectService {
 
     public Project transferProjectInputDtoToProject(ProjectInputDto projectInputDto, Project project) {
         project.setProjectName(projectInputDto.projectName);
+        project.setProjectArtist(projectInputDto.projectArtist);
+        project.setProjectRelease(projectInputDto.projectRelease);
         return project;
     }
 
@@ -122,6 +124,8 @@ public class ProjectService {
         projectOutputDto.projectId = project.getProjectId();
         projectOutputDto.projectName = project.getProjectName();
         projectOutputDto.projectCoverImage = project.getProjectCoverImage();
+        projectOutputDto.projectArtist = project.getProjectArtist();
+        projectOutputDto.projectRelease = project.getProjectRelease();
         projectOutputDto.projectOwnerId = project.getProjectOwner().getId();
         projectOutputDto.contributors = project.getContributors();
         return projectOutputDto;

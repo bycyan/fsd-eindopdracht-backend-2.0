@@ -51,13 +51,32 @@ public class FileController {
         }
     }
 
+    //OUD
     //GET
+//    @GetMapping("/user_image/{userId}")
+//    public ResponseEntity<Object> downloadProfilePic(@PathVariable Long userId, HttpServletRequest request) {
+//        Resource resource = fileService.getFile(userId);
+//        MediaType contentType = MediaType.IMAGE_JPEG;
+//        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
+//    }
+    //NIEUW
     @GetMapping("/user_image/{userId}")
-    public ResponseEntity<Object> downloadProfilePic(@PathVariable Long userId, HttpServletRequest request) {
-        Resource resource = fileService.getFile(userId);
-        MediaType contentType = MediaType.IMAGE_JPEG;
-        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
+    public ResponseEntity<Resource> downloadProfilePic(@PathVariable Long userId, HttpServletRequest request) {
+        ResponseEntity<Resource> fileResponse = fileService.getFile(userId);
+        Resource resource = fileResponse.getBody();
+
+        if (resource != null) {
+            MediaType contentType = MediaType.IMAGE_JPEG;
+            return ResponseEntity.ok()
+                    .contentType(contentType)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                    .body(resource);
+        } else {
+            // Handle case where file retrieval failed
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     //DELETE
     @DeleteMapping("/user_image/{userId}")
@@ -95,12 +114,21 @@ public class FileController {
         }
     }
 
-    @GetMapping("/song/{songId}")
-    public ResponseEntity<Object> getSong(@PathVariable Long songId, HttpServletRequest request) {
-        Resource resource = fileService.getSong(songId);
-        MediaType contentType = MediaType.parseMediaType("audio/mp3");
-        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
-    }
+//    @GetMapping("/song/{songId}")
+//    public ResponseEntity<Object> getSong(@PathVariable Long songId, HttpServletRequest request) {
+//        Resource resource = fileService.getSong(songId);
+//        MediaType contentType = MediaType.parseMediaType("audio/mp3");
+//        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename()).body(resource);
+//    }
+@GetMapping("/song/{songId}")
+public ResponseEntity<Resource> getSong(@PathVariable Long songId, HttpServletRequest request) {
+    Resource resource = fileService.getSong(songId);
+    MediaType contentType = MediaType.parseMediaType("audio/mp3");
+    return ResponseEntity.ok()
+            .contentType(contentType)
+            .header(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=" + resource.getFilename())
+            .body(resource);
+}
 
     @DeleteMapping("/song/{songId}")
     public ResponseEntity<Object> deleteSong(@PathVariable Long songId) {
@@ -114,6 +142,23 @@ public class FileController {
             throw new BadRequestException("file does not exist in the system");
         }
 
+    }
+
+    @GetMapping("/project_image/{projectId}")
+    public ResponseEntity<Resource> getProjectImage(@PathVariable Long projectId, HttpServletRequest request) {
+        ResponseEntity<Resource> fileResponse = fileService.getProjectImage(projectId);
+        Resource resource = fileResponse.getBody();
+
+        if (resource != null) {
+            MediaType contentType = MediaType.IMAGE_JPEG;
+            return ResponseEntity.ok()
+                    .contentType(contentType)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + resource.getFilename())
+                    .body(resource);
+        } else {
+            // Handle case where file retrieval failed
+            return ResponseEntity.notFound().build();
+        }
     }
 
     //POST
