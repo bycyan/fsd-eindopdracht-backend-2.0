@@ -15,7 +15,7 @@ INSERT INTO projects (project_owner_id, project_cover_image, project_name, proje
 VALUES ('1','project-img-two.jpeg1709672866873', 'New Lights', 'Daniel Bananiel', '2024');
 
 INSERT INTO songs (project_project_id, song_id, song_name, song_url)
-VALUES ('1', '1', 'BEAT_ONE', 'Dilla.mp31709673750468');
+VALUES ('1', '9999', 'BEAT_ONE', 'Dilla.mp31709673750468');
 
 INSERT INTO authorities (project_id, user_id, authority)
 VALUES ('1', '1', 'ROLE_OWNER');
